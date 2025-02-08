@@ -1,4 +1,4 @@
-[![Rust](https://github.com/DavidSeyserGit/ABB-Klipper-Middleware/actions/workflows/rust.yml/badge.svg)](https://github.com/DavidSeyserGit/ABB-Klipper-Middleware/actions/workflows/rust.yml) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)![GitHub repo file or directory count](https://img.shields.io/github/directory-file-count/DavidSeyserGit/ABB-Klipper-Middleware?style=flat)
+[![Rust](https://github.com/DavidSeyserGit/ABB-Klipper-Middleware/actions/workflows/rust.yml/badge.svg)](https://github.com/DavidSeyserGit/ABB-Klipper-Middleware/actions/workflows/rust.yml) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![GitHub repo file or directory count](https://img.shields.io/github/directory-file-count/DavidSeyserGit/ABB-Klipper-Middleware?style=flat)
 
 # ABB-Klipper-Bridge
 A Rust crate for establishing a network connection with an ABB robot and forwarding data to the Moonraker API.
