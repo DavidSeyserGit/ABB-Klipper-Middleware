@@ -1,3 +1,5 @@
+[![Rust](https://github.com/DavidSeyserGit/ABB-Klipper-Middleware/actions/workflows/rust.yml/badge.svg)](https://github.com/DavidSeyserGit/ABB-Klipper-Middleware/actions/workflows/rust.yml)
+
 # ABB-Klipper-Bridge
 A Rust crate for establishing a network connection with an ABB robot and forwarding data to the Moonraker API.
 
