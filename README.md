@@ -1,2 +1,12 @@
-# ABB-Klipper-Middleware
-This is a simple middleware created to send data from ABB Rapid to Klipper.
+# ABB-Klipper-Bridge
+A Rust crate for establishing a network connection with an ABB robot and forwarding data to the Moonraker API.
+
+This crate simplifies the process of connecting to a TCP server, reading data, and sending it to a Moonraker instance.  It's designed to be lightweight and efficient, providing a building block for applications that need to interact with Moonraker over TCP.
+
+## Features
+
+* **Network Connection Management:** Establishes and manages a persistent network connections.
+* **Data Forwarding:** Reads data from the netwotk stream and forwards it to the Moonraker API.
+* **Configurable:** Allows customization of network connection parameters and Moonraker API endpoint.
+* **Error Handling:** Provides robust error handling for connection issues and API interactions.
+* **Minimal Dependencies:** Keeps dependencies to a minimum for a smaller footprint.
