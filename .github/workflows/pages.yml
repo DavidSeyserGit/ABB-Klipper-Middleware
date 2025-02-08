@@ -25,17 +25,23 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Build Docs
         run: cargo doc --no-deps
+      - name: Create staging directory
+        run: mkdir target/doc-staging  # Create a temporary directory
+      - name: Copy files to staging
+        run: cp -r target/doc/ABB_Klipper_Middleware/* target/doc-staging/  # Copy everything
+      - name: Copy index.html to root
+        run: cp target/doc-staging/index.html target/doc-staging/index.html # Copy index.html to the root
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: target/doc/ABB_Klipper_Middleware
+          path: target/doc-staging  # Upload from the staging directory
 
   deploy:
     name: Deploy
     needs: build
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Required for deployment
+      contents: write
       pages: write
       id-token: write
     environment:
