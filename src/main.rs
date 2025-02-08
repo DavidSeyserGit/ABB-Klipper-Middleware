@@ -5,9 +5,7 @@ use std::error::Error;
 use tokio::runtime::Runtime;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let listener = TcpListener::bind("127.0.0.1:6969")?;
-    println!("Listening on 127.0.0.1:6969");
-
+    let listener = TcpListener::bind("127.0.0.1:6969")?; // needs to be changed to the robot IP
     let rt = Runtime::new()?;
 
     for stream in listener.incoming() {
@@ -22,11 +20,10 @@ fn main() -> Result<(), Box<dyn Error>> {
                                 break;
                             }
                             let received_data = String::from_utf8_lossy(&buffer[..sz]).to_string();
-                            println!("Received data: {}", received_data);
 
                             let result = rt.block_on(post_to_moonraker(&received_data));
                             match result {
-                                Ok(response) => println!("Response: {:?}", response),
+                                Ok(response) => (),
                                 Err(e) => eprintln!("Error posting to Moonraker: {:?}", e),
                             }
                         }
@@ -47,9 +44,12 @@ fn main() -> Result<(), Box<dyn Error>> {
 }
 
 async fn post_to_moonraker(data: &str) -> Result<reqwest::Response, reqwest::Error> {
+    //on the realy robot data will only be a E-Value and an int not a G-Code
+    let result = format!("E{}", data);
+    println!("{}", result);
     let client = reqwest::Client::new();
     let response = client.post("http://127.0.0.1:7125/printer/gcode/script")
-        .query(&[("script", data)])
+        .query(&[("script", result)])
         .send()
         .await?;
     Ok(response)
