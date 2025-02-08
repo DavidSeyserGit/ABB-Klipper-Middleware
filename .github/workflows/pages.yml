@@ -22,22 +22,26 @@ jobs:
         uses: Swatinem/rust-cache@v2
       - name: Setup Pages
         id: pages
-        uses: actions/configure-pages@v4 # Updated to v4 or later
+        uses: actions/configure-pages@v4
       - name: Build Docs
         run: cargo doc --no-deps
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: target/doc
+
   deploy:
     name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required for deployment
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs:
-      needs: build
-    runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4 # Updated to v4 or later
+        uses: actions/deploy-pages@v4
