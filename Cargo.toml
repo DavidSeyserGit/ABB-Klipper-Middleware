@@ -14,4 +14,4 @@ path = "src/converter/convert.rs"
 
 [[bin]]
 name = "bridge"
-path = "src/bridge/main.rs"
+path = "src/bridge/bridge.rs"
