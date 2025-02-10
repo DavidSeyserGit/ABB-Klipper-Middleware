@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+colored = "3.0.0"
 reqwest = "0.12.12"
 tokio = { version = "1", features = ["full"] }
 url = "2"
