@@ -4,6 +4,7 @@ use std::error::Error; // Import the Error trait
 use std::process; // For cleaner error handling
 use std::path::Path;
 use colored::*;
+use regex::Regex;
 
 fn main() -> Result<(), Box<dyn std::error::Error>>{
     //getting the parameters from the terminal
@@ -18,10 +19,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     // if let checks if the path has an extension and when it does it holds it
     if let Some(extension) = path.extension() {
         if extension == "mod" {
-            let contents = read_file(file_path)?; // Use ? for error propagation
-
+            let mut contents = read_file(file_path)?;
+            contents = replace_call_extruder_with_socket_send(&contents);
+            contents = search_and_create_socket(&contents);
             // More efficient way to write the modified contents:
-            fs::write(file_path, search_and_create_socket(&contents))?; // Pass a reference
+            fs::write(file_path, contents)?; // Pass a reference
 
         } else {
             eprintln!("{}", "Error: Only *.mod files are accepted".red());
@@ -65,4 +67,22 @@ fn search_and_create_socket(contents: &String) -> String{
         \nSocketConnect my_socket, \"192.168.0.1\", 1025;
         \n{}", contents)
     }
+}
+
+fn replace_call_extruder_with_socket_send(contents: &String)->String{
+    let re = Regex::new(r"Extruder(\d+)").unwrap();
+    let mut new_contents = String::new();
+
+    for lines in contents.lines(){
+        if let Some(captures) = re.captures(lines){
+            let number_str = captures.get(1).unwrap().as_str(); //get the number (match group1)
+            let number = number_str.parse::<f32>().unwrap()/1000.00; // get it to a number
+            new_contents.push_str(&format!("    SocketSend({});\n", number));
+        }
+        else{
+            new_contents.push_str(lines); // Append the original line
+            new_contents.push_str("\n"); // Add the newline back
+        }
+    }
+    new_contents
 }
