@@ -77,7 +77,7 @@ fn replace_call_extruder_with_socket_send(contents: &String)->String{
         if let Some(captures) = re.captures(lines){
             let number_str = captures.get(1).unwrap().as_str(); //get the number (match group1)
             let number = number_str.parse::<f32>().unwrap()/1000.00; // get it to a number
-            new_contents.push_str(&format!("    SocketSend({});\n", number));
+            new_contents.push_str(&format!("    SocketSend my_socket \\Str '{}';\n", number));
         }
         else{
             new_contents.push_str(lines); // Append the original line
@@ -85,4 +85,9 @@ fn replace_call_extruder_with_socket_send(contents: &String)->String{
         }
     }
     new_contents
+}
+
+fn replace_setrpm_with_socket_send(contents: &String)->String{
+
+    todo!();
 }
