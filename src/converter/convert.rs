@@ -16,34 +16,41 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     let file_path = &args[1];
     let path = Path::new(file_path);
 
-    // if let checks if the path has an extension and when it does it holds it
-    if let Some(extension) = path.extension() {
-        if extension == "mod" {
-            let mut contents = read_file(file_path)?;
-            contents = replace_call_extruder_with_socket_send(&contents);
-            contents = search_and_create_socket(&contents);
-            // More efficient way to write the modified contents:
-            fs::write(file_path, contents)?; // Pass a reference
+    //go through the directory and check if every directory "entry" is an .mod file
 
+    for entries in fs::read_dir(path)?{
+        let entries = entries?;
+        let entries_path = entries.path();
+        println!("{:?}", entries_path);
+
+        // if let checks if the path has an extension and when it does it holds it
+        if let Some(extension) = entries_path.extension() {
+            if extension == "mod" {
+                let mut contents = read_file(&entries_path)?;
+                contents = replace_call_extruder_with_socket_send(&contents);
+                contents = search_and_create_socket(&contents);
+                // More efficient way to write the modified contents:
+                fs::write(entries_path, contents)?; // Pass a reference
+
+            } else {
+                eprintln!("{}", "Error: Only *.mod files are accepted".red());
+                process::exit(1);
+            }
         } else {
-            eprintln!("{}", "Error: Only *.mod files are accepted".red());
+            eprintln!("{}", "Error: File has no extension.".red());
             process::exit(1);
         }
-    } else {
-        eprintln!("{}", "Error: File has no extension.".red());
-        process::exit(1);
     }
-
     Ok(())
 }
 
-fn read_file(file_path: &String)->Result<String, Box<dyn Error>>{
+fn read_file(file_path: &Path)->Result<String, Box<dyn Error>>{
     match fs::read_to_string(file_path) {
         Ok(contents) => {
             Ok(contents) // Return Ok(()) to indicate success
         }
         Err(e) => {
-            eprintln!("{}", format!("Error reading file '{}': {}", file_path, e).red());
+            eprintln!("Error reading file '{:?}': {}", file_path, e);
             Err(Box::new(e)) // Box the error to satisfy the Result type
         }
     }
@@ -88,7 +95,8 @@ fn replace_call_extruder_with_socket_send(contents: &String)->String{
     new_contents
 }
 
-fn replace_setrpm_with_socket_send(contents: &String)->String{
+
+fn replace_setrpm_with_socket_send(_contents: &String)->String{
 
     todo!();
 }
