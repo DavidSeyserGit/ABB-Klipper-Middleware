@@ -54,14 +54,15 @@ fn search_and_create_socket(contents: &String) -> String{
     //if not we have to create a socket on a specifc ip adress and port
     //manipulate the string so that we add a socket in Rapid-Code Style
     //return the new string
-    //currently the socket will be created as the first thing
+    //currently the socket will be created as the first thing -> might need to change it so that this is after the Module Name
     if contents.contains("VAR socketdev my_socket") 
     && contents.contains("SocketCreate my_socket") 
     && contents.contains("SocketConnect my_socket, \"192.168.0.1\", 1025")
     {
-        contents.to_string()
+        contents.to_string() //if a socket is already in the program we dont have to do anything
     }
     else{
+        //otherwise we create the sockets ourselfs
         format!("VAR socketdev my_socket;
         \nSocketCreate my_socket;
         \nSocketConnect my_socket, \"192.168.0.1\", 1025;
