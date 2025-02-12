@@ -4,7 +4,7 @@ use std::error::Error; // Import the Error trait
 use std::process; // For cleaner error handling
 use std::path::Path;
 use colored::*;
-pub mod utility;
+mod utility;
 
 fn main() -> Result<(), Box<dyn std::error::Error>>{
     //getting the parameters from the terminal
