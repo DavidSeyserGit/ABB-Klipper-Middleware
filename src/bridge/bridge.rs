@@ -47,7 +47,6 @@ async fn post_to_moonraker(data: &str) -> Result<reqwest::Response, reqwest::Err
     //on the realy robot data will only be a E-Value and an int not a G-Code
     //i have to also accept the F Value so i have to differentiate if the value is E or F type
     //currently expects to get only a int Value -> check if the string contains F or E depending which type it is
-    let result = format!("E{}", data);
     println!("{}", result);
     let client = reqwest::Client::new();
     let response = client.post("http://127.0.0.1:7125/printer/gcode/script")
