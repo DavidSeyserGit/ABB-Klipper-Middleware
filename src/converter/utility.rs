@@ -15,18 +15,19 @@ pub fn read_file(file_path: &Path)->Result<String, Box<dyn Error>>{
     }
 }
 
+//needs to be rewritten to be not the first thing but after the Module declaration
 pub fn search_and_create_socket(contents: &String) -> String{
     if contents.contains("VAR socketdev my_socket") 
     && contents.contains("SocketCreate my_socket") 
-    && contents.contains("SocketConnect my_socket, \"192.168.0.1\", 1025")
+    && contents.contains("SocketConnect my_socket, \"10.0.0.10\", 1234")
     {
         contents.to_string() //if a socket is already in the program we dont have to do anything
     }
     else{
-        //otherwise we create the sockets ourselfs
+        //otherwise we create the sockets ourselfs SocketCreate and SocketConnect need to be in the mainprogram and not outside of it
         format!("VAR socketdev my_socket;
         \nSocketCreate my_socket;
-        \nSocketConnect my_socket, \"192.168.0.1\", 1025;
+        \nSocketConnect my_socket, \"10.0.0.10\", 1234;
         \n{}", contents)
     }
 }

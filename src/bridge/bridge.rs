@@ -23,7 +23,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
                             let result = rt.block_on(post_to_moonraker(&received_data));
                             match result {
-                                Ok(response) => (),
+                                Ok(_response) => (),
                                 Err(e) => eprintln!("Error posting to Moonraker: {:?}", e),
                             }
                         }
@@ -45,6 +45,8 @@ fn main() -> Result<(), Box<dyn Error>> {
 
 async fn post_to_moonraker(data: &str) -> Result<reqwest::Response, reqwest::Error> {
     //on the realy robot data will only be a E-Value and an int not a G-Code
+    //i have to also accept the F Value so i have to differentiate if the value is E or F type
+    //currently expects to get only a int Value -> check if the string contains F or E depending which type it is
     let result = format!("E{}", data);
     println!("{}", result);
     let client = reqwest::Client::new();

@@ -33,7 +33,7 @@ fn process_directory(path: &Path) -> Result<(), Box<dyn Error>>{
         if let Some(extension) = entries_path.extension() {
             if extension == "mod" {
                 let mut contents = utility::read_file(&entries_path)?;
-                
+
                 //creation of the socket should happen only once as the other files are loaded in dynamically
                 if let Some(file_name) = entries_path.file_name().and_then(|name| name.to_str()) {
                     if file_name == "main.mod" {
@@ -50,7 +50,6 @@ fn process_directory(path: &Path) -> Result<(), Box<dyn Error>>{
             }
         } else {
             eprintln!("{}", "Error: File has no extension.".red());
-            process::exit(1);
         }
     }
     Ok(())
