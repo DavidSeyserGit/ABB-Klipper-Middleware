@@ -33,8 +33,9 @@ fn process_directory(path: &Path) -> Result<(), Box<dyn Error>>{
         if let Some(extension) = entries_path.extension() {
             if extension == "mod" {
                 let mut contents = utility::read_file(&entries_path)?;
-                contents = utility::replace_call_extruder_with_socket_send(&contents);
                 contents = utility::search_and_create_socket(&contents);
+                contents = utility::replace_call_extruder_with_socket_send(&contents);
+                contents = utility::replace_setrpm_with_socket_send(&contents);
                 fs::write(entries_path, contents)?; // Pass a reference
 
             } else {
@@ -52,8 +53,9 @@ fn process_directory(path: &Path) -> Result<(), Box<dyn Error>>{
 fn process_file(path: &Path)->Result<(), Box<dyn Error>>{
     //this means we only have one file and not a directory where i wanna replace the contents of
     let mut contents = utility::read_file(&path)?;
-    contents = utility::replace_call_extruder_with_socket_send(&contents);
     contents = utility::search_and_create_socket(&contents);
+    contents = utility::replace_call_extruder_with_socket_send(&contents);
+    contents = utility::replace_setrpm_with_socket_send(&contents);
     fs::write(path, contents)?; // Pass a reference
     Ok(())
 }

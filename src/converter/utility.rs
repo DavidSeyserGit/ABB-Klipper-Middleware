@@ -39,7 +39,7 @@ pub fn replace_call_extruder_with_socket_send(contents: &String)->String{
         if let Some(captures) = re.captures(lines){
             let number_str = captures.get(1).unwrap().as_str(); //get the number (match group1)
             let number = number_str.parse::<f32>().unwrap()/1000.00; // get it to a number
-            new_contents.push_str(&format!("    SocketSend my_socket \\Str '{}';\n", number));
+            new_contents.push_str(&format!("    SocketSend my_socket \\Str 'E{}';\n", number));
         }
         else{
             new_contents.push_str(lines); // Append the original line
@@ -50,6 +50,20 @@ pub fn replace_call_extruder_with_socket_send(contents: &String)->String{
 }
 
 
-pub fn replace_setrpm_with_socket_send(_contents: &String)->String{
-    todo!();
+pub fn replace_setrpm_with_socket_send(contents: &String)->String{
+    let re = Regex::new(r"rdkSpeed:=\[((\d+\.?\d*)),\d.*").unwrap();
+    let mut new_contents = String::new();
+
+    for lines in contents.lines(){
+        if let Some(captures) = re.captures(lines){
+            let number_str = captures.get(1).unwrap().as_str(); //get the number (match group1)
+            let number = number_str.parse::<f32>().unwrap(); // get it to a number
+            new_contents.push_str(&format!("    SocketSend my_socket \\Str 'F{}';\n", number));
+        }
+        else{
+            new_contents.push_str(lines); // Append the original line
+            new_contents.push_str("\n"); // Add the newline back
+        }
+    }
+    new_contents
 }
