@@ -4,7 +4,7 @@ use std::error::Error; // Import the Error trait
 use std::process; // For cleaner error handling
 use std::path::Path;
 use colored::*;
-use regex::Regex;
+pub mod utility;
 
 fn main() -> Result<(), Box<dyn std::error::Error>>{
     //getting the parameters from the terminal
@@ -13,11 +13,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
         eprintln!("{}", format!("Usage: {} <file_path>", args[0]).yellow());
         process::exit(1); // Exit with a non-zero code to indicate an error
     }
-    let file_path = &args[1];
-    let path = Path::new(file_path);
+    let path = Path::new(&args[1]);
+    
+    if !path.is_dir(){
+        process_file(path)?;
+    }else{
+        process_directory(path)?;
+    }
+    Ok(())
+}
 
-    //go through the directory and check if every directory "entry" is an .mod file
-
+fn process_directory(path: &Path) -> Result<(), Box<dyn Error>>{
     for entries in fs::read_dir(path)?{
         let entries = entries?;
         let entries_path = entries.path();
@@ -26,10 +32,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
         // if let checks if the path has an extension and when it does it holds it
         if let Some(extension) = entries_path.extension() {
             if extension == "mod" {
-                let mut contents = read_file(&entries_path)?;
-                contents = replace_call_extruder_with_socket_send(&contents);
-                contents = search_and_create_socket(&contents);
-                // More efficient way to write the modified contents:
+                let mut contents = utility::read_file(&entries_path)?;
+                contents = utility::replace_call_extruder_with_socket_send(&contents);
+                contents = utility::search_and_create_socket(&contents);
                 fs::write(entries_path, contents)?; // Pass a reference
 
             } else {
@@ -44,59 +49,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
     Ok(())
 }
 
-fn read_file(file_path: &Path)->Result<String, Box<dyn Error>>{
-    match fs::read_to_string(file_path) {
-        Ok(contents) => {
-            Ok(contents) // Return Ok(()) to indicate success
-        }
-        Err(e) => {
-            eprintln!("Error reading file '{:?}': {}", file_path, e);
-            Err(Box::new(e)) // Box the error to satisfy the Result type
-        }
-    }
-}
-
-fn search_and_create_socket(contents: &String) -> String{
-    //we have to check if a socket is already in the file and initialized
-    //if not we have to create a socket on a specifc ip adress and port
-    //manipulate the string so that we add a socket in Rapid-Code Style
-    //return the new string
-    //currently the socket will be created as the first thing -> might need to change it so that this is after the Module Name
-    if contents.contains("VAR socketdev my_socket") 
-    && contents.contains("SocketCreate my_socket") 
-    && contents.contains("SocketConnect my_socket, \"192.168.0.1\", 1025")
-    {
-        contents.to_string() //if a socket is already in the program we dont have to do anything
-    }
-    else{
-        //otherwise we create the sockets ourselfs
-        format!("VAR socketdev my_socket;
-        \nSocketCreate my_socket;
-        \nSocketConnect my_socket, \"192.168.0.1\", 1025;
-        \n{}", contents)
-    }
-}
-
-fn replace_call_extruder_with_socket_send(contents: &String)->String{
-    let re = Regex::new(r"Extruder(\d+)").unwrap();
-    let mut new_contents = String::new();
-
-    for lines in contents.lines(){
-        if let Some(captures) = re.captures(lines){
-            let number_str = captures.get(1).unwrap().as_str(); //get the number (match group1)
-            let number = number_str.parse::<f32>().unwrap()/1000.00; // get it to a number
-            new_contents.push_str(&format!("    SocketSend my_socket \\Str '{}';\n", number));
-        }
-        else{
-            new_contents.push_str(lines); // Append the original line
-            new_contents.push_str("\n"); // Add the newline back
-        }
-    }
-    new_contents
-}
-
-
-fn replace_setrpm_with_socket_send(_contents: &String)->String{
-
-    todo!();
+fn process_file(path: &Path)->Result<(), Box<dyn Error>>{
+    //this means we only have one file and not a directory where i wanna replace the contents of
+    let mut contents = utility::read_file(&path)?;
+    contents = utility::replace_call_extruder_with_socket_send(&contents);
+    contents = utility::search_and_create_socket(&contents);
+    fs::write(path, contents)?; // Pass a reference
+    Ok(())
 }
