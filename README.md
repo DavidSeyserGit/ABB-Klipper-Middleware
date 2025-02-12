@@ -13,3 +13,27 @@ This crate simplifies the process of connecting to a TCP server, reading data, a
 * **Configurable:** Allows customization of network connection parameters and Moonraker API endpoint.
 * **Error Handling:** Provides robust error handling for connection issues and API interactions.
 * **Minimal Dependencies:** Keeps dependencies to a minimum for a smaller footprint.
+
+## License and Attributions
+
+This project is licensed under the GNU General Public License v3.0 (GPLv3).  See the [LICENSE](LICENSE) file for the full license text.
+
+This project incorporates the following third-party libraries/crates:
+
+* **[reqwest](https://github.com/seanmonstar/reqwest):** Licensed under the MIT License.  See the [MIT License](LICENSE-crate_name_1) file for the full license text.
+
+* **[colored](https://github.com/colored-rs/colored):** Licensed under the MPL-2.0. See the [MPL-2.0 License](LICENSE-crate_name_2) file for the full license text.
+
+* **[tokio](https://github.com/tokio-rs/tokio):** Licensed under the MIT. See the [MIT License](LICENSE-crate-name_3) file for the full license text.
+
+## Explanation of Licenses
+
+This project uses several open-source licenses.  Here's a brief overview:
+
+* **GPLv3:** The GNU General Public License version 3.0 is a copyleft license. This means that if you distribute a modified version of this project, you must also distribute the source code of your modifications under the GPLv3.
+
+* **MIT License:** The MIT License is a very permissive license that allows you to do almost anything with the code, as long as you include the original copyright notice and permission notice.
+
+* **Apache License 2.0:** The Apache License 2.0 is another permissive license that is similar to the MIT License, but also includes a patent grant.
+
+* **Mozilla Public License 2.0:** The MPL 2.0 is a file-level copyleft license.  It allows you to combine the MPL 2.0-licensed code with other code under other licenses, including the GPLv3, and distribute the combined work under the terms of the GPLv3.
