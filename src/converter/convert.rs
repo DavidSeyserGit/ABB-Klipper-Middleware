@@ -27,13 +27,19 @@ fn process_directory(path: &Path) -> Result<(), Box<dyn Error>>{
     for entries in fs::read_dir(path)?{
         let entries = entries?;
         let entries_path = entries.path();
-        println!("{:?}", entries_path);
+        println!("{}", format!("Processing File: {}", entries_path.to_str().unwrap()).green());
 
         // if let checks if the path has an extension and when it does it holds it
         if let Some(extension) = entries_path.extension() {
             if extension == "mod" {
                 let mut contents = utility::read_file(&entries_path)?;
-                contents = utility::search_and_create_socket(&contents);
+                
+                //creation of the socket should happen only once as the other files are loaded in dynamically
+                if let Some(file_name) = entries_path.file_name().and_then(|name| name.to_str()) {
+                    if file_name == "main.mod" {
+                        contents = utility::search_and_create_socket(&contents);
+                    }
+                }
                 contents = utility::replace_call_extruder_with_socket_send(&contents);
                 contents = utility::replace_setrpm_with_socket_send(&contents);
                 fs::write(entries_path, contents)?; // Pass a reference
