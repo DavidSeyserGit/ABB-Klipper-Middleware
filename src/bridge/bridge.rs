@@ -5,7 +5,7 @@ use std::error::Error;
 use tokio::runtime::Runtime;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let listener = TcpListener::bind("127.0.0.1:6969")?; // needs to be changed to the robot IP or 0.0.0.0:6969
+    let listener = TcpListener::bind("10.0.0.10:1234")?; // needs to be changed to the robot IP or 0.0.0.0:6969
     let rt = Runtime::new()?;
 
     for stream in listener.incoming() {
@@ -48,11 +48,13 @@ async fn post_to_moonraker(data: &str) -> Result<reqwest::Response, reqwest::Err
     //on the realy robot data will only be a E-Value and an int not a G-Code
     //i have to also accept the F Value so i have to differentiate if the value is E or F type
     //currently expects to get only a int Value -> check if the string contains F or E depending which type it is
-    println!("{}", data);
+    println!("G1 {}", data);
+    let fromated_data = format!("G1 {}", data);
     let client = reqwest::Client::new();
     let response = client.post("http://127.0.0.1:7125/printer/gcode/script")
-        .query(&[("script", data)])
+        .query(&[("script", fromated_data)])
         .send()
         .await?;
+        println!("{:?}", response);
     Ok(response)
 }
