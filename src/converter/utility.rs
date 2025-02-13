@@ -16,7 +16,7 @@ pub fn read_file(file_path: &Path)->Result<String, Box<dyn Error>>{
 }
 
 //needs to be rewritten to be not the first thing but after the Module declaration
-pub fn search_and_create_socket(contents: &String) -> String {
+pub fn search_and_create_socket(contents: &String, _postprocess: &String) -> String {
     if contents.contains("VAR socketdev my_socket")
         && contents.contains("SocketCreate my_socket")
         && contents.contains("SocketConnect my_socket, \"10.0.0.10\", 1234")
@@ -53,8 +53,13 @@ pub fn search_and_create_socket(contents: &String) -> String {
     modified_contents
 }
 
-pub fn replace_call_extruder_with_socket_send(contents: &String)->String{
-    let re = Regex::new(r"Extruder(\d+)").unwrap();
+pub fn replace_call_extruder_with_socket_send(contents: &String, postprocess: &String)->String{
+    let re = if postprocess == "rapid" {
+        Regex::new(r"Extruder(\d+)").unwrap()
+    } else {
+        Regex::new(r"ExtruderSpeed\s*(\d+)").unwrap() // Note the space here
+    };
+
     let mut new_contents = String::new();
 
     for lines in contents.lines(){
@@ -72,8 +77,13 @@ pub fn replace_call_extruder_with_socket_send(contents: &String)->String{
 }
 
 
-pub fn replace_setrpm_with_socket_send(contents: &String)->String{
-    let re = Regex::new(r"SetRPM(\d+)").unwrap();
+pub fn replace_setrpm_with_socket_send(contents: &String, postprocess: &String)->String{
+    let re = if postprocess == "rapid" {
+        Regex::new(r"SetRPM(\d+)").unwrap()
+    } else {
+        Regex::new(r"SetRPM\s(\d+)").unwrap() // Note the space here
+    };
+
     let mut new_contents = String::new();
 
     for lines in contents.lines(){
@@ -90,8 +100,13 @@ pub fn replace_setrpm_with_socket_send(contents: &String)->String{
     new_contents
 }
 
-pub fn replace_m_code_with_socket_send(contents: &String)->String{
-    let re = Regex::new(r"M_RunCode(\d+)").unwrap(); //needs to be changed
+pub fn replace_m_code_with_socket_send(contents: &String, postprocess: &String)->String{
+    let re = if postprocess == "rapid" {
+        Regex::new(r"M_RunCode(\d+)").unwrap()
+    } else {
+        Regex::new(r"M_RunCode\s(\d+)").unwrap() // Note the space here
+    };
+
     let mut new_contents = String::new();
 
     for lines in contents.lines(){

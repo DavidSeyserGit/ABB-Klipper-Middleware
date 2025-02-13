@@ -14,16 +14,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>>{
         process::exit(1); // Exit with a non-zero code to indicate an error
     }
     let path = Path::new(&args[1]);
+    let postprecessor = &args[2];
+    println!("{}", postprecessor);
     
     if !path.is_dir(){
-        process_file(path)?;
+        process_file(path, postprecessor)?;
     }else{
-        process_directory(path)?;
+        process_directory(path, postprecessor)?;
     }
     Ok(())
 }
 
-fn process_directory(path: &Path) -> Result<(), Box<dyn Error>>{
+fn process_directory(path: &Path, postprecessor: &String) -> Result<(), Box<dyn Error>>{
     for entries in fs::read_dir(path)?{
         let entries = entries?;
         let entries_path = entries.path();
@@ -37,12 +39,12 @@ fn process_directory(path: &Path) -> Result<(), Box<dyn Error>>{
                 //creation of the socket should happen only once as the other files are loaded in dynamically
                 if let Some(file_name) = entries_path.file_name().and_then(|name| name.to_str()) {
                     if file_name == "main.mod" {
-                        contents = utility::search_and_create_socket(&contents);
+                        contents = utility::search_and_create_socket(&contents, postprecessor);
                     }
                 }
-                contents = utility::replace_call_extruder_with_socket_send(&contents);
-                contents = utility::replace_setrpm_with_socket_send(&contents);
-                contents = utility::replace_m_code_with_socket_send(&contents);
+                contents = utility::replace_call_extruder_with_socket_send(&contents, postprecessor);
+                contents = utility::replace_setrpm_with_socket_send(&contents,postprecessor);
+                contents = utility::replace_m_code_with_socket_send(&contents, postprecessor);
                 fs::write(entries_path, contents)?; // Pass a reference
 
             } else {
@@ -56,13 +58,13 @@ fn process_directory(path: &Path) -> Result<(), Box<dyn Error>>{
     Ok(())
 }
 
-fn process_file(path: &Path)->Result<(), Box<dyn Error>>{
+fn process_file(path: &Path, postprecessor: &String)->Result<(), Box<dyn Error>>{
     //this means we only have one file and not a directory where i wanna replace the contents of
     let mut contents = utility::read_file(&path)?;
-    contents = utility::search_and_create_socket(&contents);
-    contents = utility::replace_call_extruder_with_socket_send(&contents);
-    contents = utility::replace_setrpm_with_socket_send(&contents);
-    contents = utility::replace_m_code_with_socket_send(&contents);
+    contents = utility::search_and_create_socket(&contents, postprecessor);
+    contents = utility::replace_call_extruder_with_socket_send(&contents,postprecessor);
+    contents = utility::replace_setrpm_with_socket_send(&contents, postprecessor);
+    contents = utility::replace_m_code_with_socket_send(&contents, postprecessor);
     fs::write(path, contents)?; // Pass a reference
     Ok(())
 }
