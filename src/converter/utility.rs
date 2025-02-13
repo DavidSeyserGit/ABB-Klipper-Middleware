@@ -37,7 +37,7 @@ pub fn search_and_create_socket(contents: &String, _postprocess: &String) -> Str
             modified_contents.push_str("VAR socketdev my_socket;\n"); // Add variable declaration *after* module
         }
 
-        if line.contains("PROC main_RoboDK()") && !proc_found {  // Only process the first PROC line
+        if line.contains("PROC") && !proc_found {  // Only process the first PROC line
             proc_found = true;
             modified_contents.push_str("\tSocketCreate my_socket;\n\tSocketConnect my_socket, \"10.0.0.10\", 1234;\n"); // Insert create/connect
         }
@@ -65,7 +65,12 @@ pub fn replace_call_extruder_with_socket_send(contents: &String, postprocess: &S
     for lines in contents.lines(){
         if let Some(captures) = re.captures(lines){
             let number_str = captures.get(1).unwrap().as_str(); //get the number (match group1)
-            let number = number_str.parse::<f32>().unwrap()/100000.00; // get it to a number
+            let factor = if postprocess == "rapid"{
+                100000.00
+            }else{
+                1.00
+            };
+            let number = number_str.parse::<f32>().unwrap()/factor; // get it to a number
             new_contents.push_str(&format!("    SocketSend my_socket \\Str \"E{}\";\n", number));
         }
         else{
