@@ -49,7 +49,7 @@ async fn post_to_moonraker(data: &str) -> Result<reqwest::Response, reqwest::Err
     //i have to also accept the F Value so i have to differentiate if the value is E or F type
     //currently expects to get only a int Value -> check if the string contains F or E depending which type it is
     println!("G1 {}", data);
-    let fromated_data = format!("G1 {}", data);
+    let fromated_data = format!("G1 {}", data); //format it so that we have a G1 in front of the data
     let client = reqwest::Client::new();
     let response = client.post("http://127.0.0.1:7125/printer/gcode/script")
         .query(&[("script", fromated_data)])

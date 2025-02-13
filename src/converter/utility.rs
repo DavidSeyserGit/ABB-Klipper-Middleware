@@ -16,20 +16,41 @@ pub fn read_file(file_path: &Path)->Result<String, Box<dyn Error>>{
 }
 
 //needs to be rewritten to be not the first thing but after the Module declaration
-pub fn search_and_create_socket(contents: &String) -> String{
-    if contents.contains("VAR socketdev my_socket") 
-    && contents.contains("SocketCreate my_socket") 
-    && contents.contains("SocketConnect my_socket, \"10.0.0.10\", 1234")
+pub fn search_and_create_socket(contents: &String) -> String {
+    if contents.contains("VAR socketdev my_socket")
+        && contents.contains("SocketCreate my_socket")
+        && contents.contains("SocketConnect my_socket, \"10.0.0.10\", 1234")
     {
-        contents.to_string() //if a socket is already in the program we dont have to do anything
+        return contents.to_string(); // Return immediately if socket code is already present
     }
-    else{
-        //otherwise we create the sockets ourselfs SocketCreate and SocketConnect need to be in the mainprogram and not outside of it
-        format!("VAR socketdev my_socket;
-        \nSocketCreate my_socket;
-        \nSocketConnect my_socket, \"10.0.0.10\", 1234;
-        \n{}", contents)
+
+    let mut modified_contents = String::new();
+    let mut module_found = false;
+    let mut proc_found = false;
+
+    for line in contents.lines() {
+        modified_contents.push_str(line); //push every line into the string
+        modified_contents.push('\n'); //make a linebreak
+
+        if line.contains("MODULE") && !module_found { // Only process the first MODULE line
+            module_found = true;
+            modified_contents.push_str("VAR socketdev my_socket;\n"); // Add variable declaration *after* module
+        }
+
+        if line.contains("PROC main_RoboDK()") && !proc_found {  // Only process the first PROC line
+            proc_found = true;
+            modified_contents.push_str("\tSocketCreate my_socket;\n\tSocketConnect my_socket, \"10.0.0.10\", 1234;\n"); // Insert create/connect
+        }
     }
+
+    if !module_found {
+        return "Error: Could not find the MODULE line.".to_string();
+    }
+    if !proc_found {
+        return "Error: Could not find the PROC main_RoboDK() line.".to_string();
+    }
+
+    modified_contents
 }
 
 pub fn replace_call_extruder_with_socket_send(contents: &String)->String{
