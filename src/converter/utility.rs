@@ -39,7 +39,7 @@ pub fn replace_call_extruder_with_socket_send(contents: &String)->String{
     for lines in contents.lines(){
         if let Some(captures) = re.captures(lines){
             let number_str = captures.get(1).unwrap().as_str(); //get the number (match group1)
-            let number = number_str.parse::<f32>().unwrap()/1000.00; // get it to a number
+            let number = number_str.parse::<f32>().unwrap()/100000.00; // get it to a number
             new_contents.push_str(&format!("    SocketSend my_socket \\Str \"E{}\";\n", number));
         }
         else{
@@ -52,7 +52,7 @@ pub fn replace_call_extruder_with_socket_send(contents: &String)->String{
 
 
 pub fn replace_setrpm_with_socket_send(contents: &String)->String{
-    let re = Regex::new(r"rdkSpeed:=\[((\d+\.?\d*)),\d.*").unwrap();
+    let re = Regex::new(r"SetRPM(\d+)").unwrap();
     let mut new_contents = String::new();
 
     for lines in contents.lines(){
@@ -70,7 +70,7 @@ pub fn replace_setrpm_with_socket_send(contents: &String)->String{
 }
 
 pub fn replace_m_code_with_socket_send(contents: &String)->String{
-    let re = Regex::new(r"rdkSpeed:=\[((\d+\.?\d*)),\d.*").unwrap(); //needs to be changed
+    let re = Regex::new(r"M_RunCode(\d+)").unwrap(); //needs to be changed
     let mut new_contents = String::new();
 
     for lines in contents.lines(){

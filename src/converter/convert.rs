@@ -42,6 +42,7 @@ fn process_directory(path: &Path) -> Result<(), Box<dyn Error>>{
                 }
                 contents = utility::replace_call_extruder_with_socket_send(&contents);
                 contents = utility::replace_setrpm_with_socket_send(&contents);
+                contents = utility::replace_m_code_with_socket_send(&contents);
                 fs::write(entries_path, contents)?; // Pass a reference
 
             } else {
@@ -61,6 +62,7 @@ fn process_file(path: &Path)->Result<(), Box<dyn Error>>{
     contents = utility::search_and_create_socket(&contents);
     contents = utility::replace_call_extruder_with_socket_send(&contents);
     contents = utility::replace_setrpm_with_socket_send(&contents);
+    contents = utility::replace_m_code_with_socket_send(&contents);
     fs::write(path, contents)?; // Pass a reference
     Ok(())
 }
