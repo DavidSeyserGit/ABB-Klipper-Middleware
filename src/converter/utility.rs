@@ -71,7 +71,7 @@ pub fn replace_call_extruder_with_socket_send(contents: &String, postprocess: &S
                 1.00
             };
             let number = number_str.parse::<f32>().unwrap()/factor; // get it to a number
-            new_contents.push_str(&format!("    SocketSend my_socket \\Str \"E{}\";\n", number));
+            new_contents.push_str(&format!("    SocketSend my_socket \\Str := \"E{}\";\n", number));
         }
         else{
             new_contents.push_str(lines); // Append the original line
@@ -95,7 +95,7 @@ pub fn replace_setrpm_with_socket_send(contents: &String, postprocess: &String)-
         if let Some(captures) = re.captures(lines){
             let number_str = captures.get(1).unwrap().as_str(); //get the number (match group1)
             let number = number_str.parse::<f32>().unwrap(); // get it to a number
-            new_contents.push_str(&format!("    SocketSend my_socket \\Str \"F{}\"';\n", number));
+            new_contents.push_str(&format!("    SocketSend my_socket \\Str := \"F{}\";\n", number));
         }
         else{
             new_contents.push_str(lines); // Append the original line
@@ -118,7 +118,7 @@ pub fn replace_m_code_with_socket_send(contents: &String, postprocess: &String)-
         if let Some(captures) = re.captures(lines){
             let number_str = captures.get(1).unwrap().as_str(); //get the number (match group1)
             let number = number_str.parse::<f32>().unwrap(); // get it to a number
-            new_contents.push_str(&format!("    SocketSend my_socket \\Str \"M{}\";\n", number));
+            new_contents.push_str(&format!("    SocketSend my_socket \\Str := \"M{}\";\n", number));
         }
         else{
             new_contents.push_str(lines); // Append the original line
