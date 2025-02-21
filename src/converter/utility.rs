@@ -53,31 +53,73 @@ pub fn search_and_create_socket(contents: &String, _postprocess: &String) -> Str
     modified_contents
 }
 
-pub fn replace_call_extruder_with_socket_send(contents: &String, postprocess: &String)->String{
-    let re = if postprocess == "rapid" {
-        Regex::new(r"Extruder(\d+)").unwrap()
-    } else {
-        Regex::new(r"ExtruderSpeed\s*(\d+)").unwrap() // Note the space here
-    };
-
+pub fn replace_call_extruder_with_socket_send(contents: &String, postprocess: &String) -> String {
     let mut new_contents = String::new();
 
-    for lines in contents.lines(){
-        if let Some(captures) = re.captures(lines){
-            let number_str = captures.get(1).unwrap().as_str(); //get the number (match group1)
-            let factor = if postprocess == "rapid"{
-                100000.00
-            }else{
-                1.00
-            };
-            let number = number_str.parse::<f32>().unwrap()/factor; // get it to a number
-            new_contents.push_str(&format!("    SocketSend my_socket \\Str := \"E{}\";\n", number));
+    if postprocess == "rapid" {
+        let re = Regex::new(r"Extruder(\d+)").unwrap();
+
+        for line in contents.lines() {
+            if let Some(captures) = re.captures(line) {
+                let number_str = captures.get(1).unwrap().as_str();
+                let factor = if postprocess == "rapid" { 100000.00 } else { 1.00 };
+                let number = number_str.parse::<f32>().unwrap() / factor;
+                new_contents.push_str(&format!("    SocketSend my_socket \\Str := \"E{}\";\n", number));
+            } else {
+                new_contents.push_str(line);
+                new_contents.push_str("\n");
+            }
         }
-        else{
-            new_contents.push_str(lines); // Append the original line
-            new_contents.push_str("\n"); // Add the newline back
+    } else { // Handle MoveL and E-value calculation
+        let move_regex = Regex::new(r"MoveL \[\[([\d\.\-E]+),([\d\.\-E]+),([\d\.\-E]+)\],\[[\d\.\-E]+,[\d\.\-E]+,[\d\.\-E]+,[\d\.\-E]+],\[[\d,-]+],\[[\dE\+\-]+,[\dE\+\-]+,[\dE\+\-]+,[\dE\+\-]+,[\dE\+\-]+,[\dE\+\-]+]\],(v\d+),.*").unwrap();
+        let speed_regex = Regex::new(r"ExtruderSpeed\s*([\d\.]+)").unwrap();
+
+        let mut last_position: Option<[f64; 3]> = None;
+        let mut extruder_speed: Option<f64> = None;
+        let mut total_e_value: f64 = 0.0; // Initialize total E-value
+
+        for line in contents.lines() {
+            if let Some(captures) = move_regex.captures(line) {
+                let x: f64 = captures[1].parse().unwrap();
+                let y: f64 = captures[2].parse().unwrap();
+                let z: f64 = captures[3].parse().unwrap();
+                let position = [x, y, z];
+                let velocity_str = captures.get(4).unwrap().as_str();
+
+                new_contents.push_str(line);
+                new_contents.push_str("\n");
+
+                if let Some(last_pos) = last_position {
+                    let distance = ((position[0] - last_pos[0]).powi(2) + (position[1] - last_pos[1]).powi(2) + (position[2] - last_pos[2]).powi(2)).sqrt();
+
+                    if let Some(speed) = extruder_speed {
+                        let velocity: f64 = velocity_str[1..].parse().unwrap_or(0.0);
+
+                        if velocity > 0.0 {
+                            let time = distance / velocity;
+                            let e_value = distance * speed * 0.1;
+                            total_e_value += e_value; // Add to the total E-value
+                            new_contents.push_str(&format!("    SocketSend my_socket \\Str := \"E{}\";\n", total_e_value)); // Send the cumulative E value
+                        } else {
+                            new_contents.push_str("    !Warning: Velocity is zero or invalid for this MoveL command.\n");
+                        }
+                    } else {
+                        new_contents.push_str("    !Warning: Extruder speed not yet defined.\n");
+                    }
+                }
+
+                last_position = Some(position);
+            } else if let Some(captures) = speed_regex.captures(line) {
+                extruder_speed = Some(captures[1].parse().unwrap());
+                new_contents.push_str("\n");
+                new_contents.push_str(&format!("    !Extruder Speed: {}\n", extruder_speed.unwrap()));
+            } else {
+                new_contents.push_str(line);
+                new_contents.push_str("\n");
+            }
         }
     }
+
     new_contents
 }
 
