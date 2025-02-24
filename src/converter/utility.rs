@@ -99,6 +99,7 @@ pub fn replace_call_extruder_with_socket_send(contents: &String, postprocess: &S
                             let time = distance / velocity;
                             let e_value = distance * speed * 0.1;
                             total_e_value += e_value; // Add to the total E-value
+                            let formatted_e_value = format!("{:.2}", total_e_value); // Format to 2 decimal places
                             new_contents.push_str(&format!("    SocketSend my_socket \\Str := \"E{}\";\n", total_e_value)); // Send the cumulative E value
                         } else {
                             new_contents.push_str("    !Warning: Velocity is zero or invalid for this MoveL command.\n");
