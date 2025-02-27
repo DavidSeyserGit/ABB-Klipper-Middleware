@@ -96,8 +96,8 @@ pub fn replace_call_extruder_with_socket_send(contents: &String, postprocess: &S
                         let velocity: f64 = velocity_str[1..].parse().unwrap_or(0.0);
 
                         if velocity > 0.0 {
-                            let time = distance / velocity;
-                            let e_value = distance * speed * 0.1;
+                            let _time = distance / velocity;
+                            let e_value = distance * speed * 0.05;
                             total_e_value += e_value; // Add to the total E-value
                             new_contents.push_str(&format!("    SocketSend my_socket \\Str := \"E{}\";\n", total_e_value)); // Send the cumulative E value
                         } else {
