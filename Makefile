@@ -18,8 +18,15 @@ help:
 	@echo ""
 
 # Installation
-install:
+converter:
 	pip install -e src/converter
+
+bridge:
+	cargo build --bin bridge --release
+
+all: 
+	pip install -e src/converter
+	cargo build --bin bridge
 
 # Testing
 test:
@@ -50,6 +57,7 @@ check: format-check lint type-check test
 # Cleanup
 clean:
 	rm -rf build/
+	rm -rf target/
 	rm -rf dist/
 	rm -rf *.egg-info/
 	rm -rf __pycache__/
