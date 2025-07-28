@@ -6,6 +6,36 @@ A Rust crate for establishing a network connection with an ABB robot and forward
 
 This crate simplifies the process of connecting to a TCP server, reading data, and sending it to a Moonraker instance.  It's designed to be lightweight and efficient, providing a building block for applications that need to interact with Moonraker over TCP.
 
+
+## Installation
+
+### Quick Start
+```bash
+git clone https://github.com/DavidSeyserGit/ABB-Klipper-Middleware.git
+cd ABB-Klipper-Middleware
+```
+
+### Converter Install Using Makefile (recommended)
+```bash
+make converter
+```
+#### Usage
+
+### Single File Processing
+```bash
+abb-converter /path/to/file.mod rapid
+```
+
+### Directory Processing
+```bash
+abb-converter /path/to/directory/ klipper
+```
+
+### Help
+```bash
+python3 converter.py --help
+```
+
 ## Features
 
 * **Network Connection Management:** Establishes and manages a persistent network connections.
