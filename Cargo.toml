@@ -10,9 +10,6 @@ reqwest = "0.12.12"
 tokio = { version = "1", features = ["full"] }
 url = "2"
 
-[[bin]]
-name = "converter"
-path = "src/converter/convert.rs"
 
 [[bin]]
 name = "bridge"
