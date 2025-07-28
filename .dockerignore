@@ -1,0 +1,85 @@
+# Git and version control
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+!README.md
+docs/
+DETAILED_REPOSITORY_ANALYSIS.md
+
+# CI/CD files
+.github/
+.travis.yml
+.circleci/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build artifacts
+target/
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Cargo lock file (let Docker regenerate for compatibility)
+Cargo.lock
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# Testing
+.coverage
+.pytest_cache/
+.tox/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Logs and temp files
+*.log
+logs/
+temp/
+tmp/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local configuration that might contain secrets
+config.local.toml
+.env
+.env.local
+
+# Output directories
+input/
+output/
+test_files/
