@@ -15,11 +15,12 @@ git clone https://github.com/DavidSeyserGit/ABB-Klipper-Middleware.git
 cd ABB-Klipper-Middleware
 ```
 
-### Converter Install Using Makefile (recommended)
+### Install binaries using Makefile (recommended)
 ```bash
-make converter
+make all
 ```
-#### Usage
+
+## Usage
 
 ### Single File Processing
 ```bash
