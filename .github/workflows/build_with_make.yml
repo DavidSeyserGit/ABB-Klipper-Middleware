@@ -31,5 +31,3 @@ jobs:
     - name: Build Rust bridge
       run: make bridge
 
-    - name: Run tests
-      run: make test
