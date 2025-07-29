@@ -1,2 +1,7 @@
 /target
 .DS_Store
+bin/
+lib/
+lib64/
+pyvenv.cfg
+include/
