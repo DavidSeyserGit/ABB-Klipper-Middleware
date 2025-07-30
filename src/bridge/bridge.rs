@@ -3,17 +3,31 @@ use std::io::Read;
 use reqwest;
 use std::error::Error;
 use tokio::runtime::Runtime;
-mod challenge_response;
-use challenge_response as cr;
+mod auth;
+use auth as cr;
+use std::fs;
+
+// Load config at startup (external file)
+#[derive(serde::Deserialize)]
+struct Config {
+    listener_ip: String,
+    auth_token: String,
+}
 
 fn main() -> Result<(), Box<dyn Error>> {
-    // Generate the token once at startup
-    let auth_token = cr::generate_auth_token();
+    // --- Security check: config.toml must be a file, not a dir ---
+    let config_path = "config.toml";
+
+    // --- Now load it ---
+    let config_str = fs::read_to_string(config_path)?;
+    let config: Config = toml::from_str(&config_str)?;
+
+    let auth_token = &config.auth_token;
     println!("Generated Auth Token: {}", auth_token);
 
-    // Bind to the TCP address
-    let listener = TcpListener::bind("0.0.0.0:1234")?;
-    println!("Listening on 0.0.0.0:1234");
+    // --- Bind to configured IP ---
+    let listener = TcpListener::bind(&config.listener_ip)?;
+    println!("✅ Listening on: {}", config.listener_ip);
 
     // Create a single Tokio runtime instance for the application's lifetime
     // This is more efficient than creating one in each loop iteration.
