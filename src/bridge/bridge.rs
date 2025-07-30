@@ -1,4 +1,4 @@
-use std::net::TcpListener;
+use std::net::{TcpListener, TcpStream};
 use std::io::Read;
 use reqwest;
 use std::error::Error;
@@ -7,47 +7,94 @@ mod challenge_response;
 use challenge_response as cr;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let token = cr::generate_auth_token();
-    println!("Generated auth token: {}", token);
+    // Generate the token once at startup
+    let auth_token = cr::generate_auth_token();
+    println!("Generated Auth Token: {}", auth_token);
 
-    let listener = TcpListener::bind("0.0.0.0:1234")?; // needs to be changed to the robot IP or 0.0.0.0:6969
+    // Bind to the TCP address
+    let listener = TcpListener::bind("0.0.0.0:1234")?;
+    println!("Listening on 0.0.0.0:1234");
+
+    // Create a single Tokio runtime instance for the application's lifetime
+    // This is more efficient than creating one in each loop iteration.
     let rt = Runtime::new()?;
 
+    // Loop to accept incoming connections
     for stream in listener.incoming() {
         match stream {
             Ok(mut stream) => {
-                let _ = stream.peer_addr().map(|addr| println!("Connection successful with: {}", addr));
-                let mut buffer = [0; 1024];
-                loop {
-                    match stream.read(&mut buffer) {
-                        Ok(sz) => {
-                            if sz == 0 {
-                                // Connection closed
-                                break;
-                            }
-                            let received_data = String::from_utf8_lossy(&buffer[..sz]).to_string();
+                let peer_addr = stream.peer_addr().map(|addr| addr.to_string()).unwrap_or_else(|_| "unknown".to_string());
+                println!("New connection from: {}", peer_addr);
+                
+                let expected_auth_token = cr::calculate_response(&auth_token);
 
-                            let result = rt.block_on(post_to_moonraker(&received_data));
-                            match result {
-                                Ok(_response) => (),
-                                Err(e) => eprintln!("Error posting to Moonraker: {:?}", e),
-                            }
+                // --- Token Validation Logic ---
+                let mut buffer = [0; 1024];
+                match stream.read(&mut buffer) {
+                    Ok(sz) => {
+                        if sz == 0 {
+                            eprintln!("Connection from {} closed immediately after connect (no token sent).", peer_addr);
+                            continue; // Move to the next incoming connection
                         }
-                        Err(e) => {
-                            eprintln!("Error reading from stream: {:?}", e);
-                            break;
+                        let received_token = String::from_utf8_lossy(&buffer[..sz]).to_string().trim().to_string(); // Trim whitespace
+
+                        if received_token == expected_auth_token {
+                            println!("Authentication successful for {} with token.", peer_addr);
+                            // Continue to process subsequent messages in a loop
+                            handle_client(&mut stream, &rt)?; // Pass stream and runtime for subsequent messages
+                        } else {
+                            eprintln!("Authentication failed for {}: Invalid token '{}'. Expected '{}'", peer_addr, received_token, expected_auth_token);
                         }
+                    }
+                    Err(e) => {
+                        eprintln!("Error reading initial token from {}: {:?}", peer_addr, e);
                     }
                 }
             }
             Err(err) => {
-                eprintln!("Error: {:?}", err);
+                eprintln!("Error accepting connection: {:?}", err);
             }
         }
     }
 
     Ok(())
 }
+
+// Function to handle subsequent messages from an authenticated client
+fn handle_client(stream: &mut TcpStream, rt: &Runtime) -> Result<(), Box<dyn Error>> {
+    let peer_addr = stream.peer_addr().map(|addr| addr.to_string()).unwrap_or_else(|_| "unknown".to_string());
+    let mut buffer = [0; 1024]; // Re-use buffer
+    loop {
+        match stream.read(&mut buffer) {
+            Ok(sz) => {
+                if sz == 0 {
+                    // Connection closed by client
+                    println!("Connection from {} closed.", peer_addr);
+                    break;
+                }
+                let received_data = String::from_utf8_lossy(&buffer[..sz]).to_string();
+                println!("Received data from {}: {}", peer_addr, received_data);
+
+                let result = rt.block_on(post_to_moonraker(&received_data));
+                match result {
+                    Ok(_response) => {
+                        // Optionally, send a success response back to the client
+                        print!("OK");
+                    },
+                    Err(e) => {
+                        eprintln!("Error posting to Moonraker for {}: {:?}", peer_addr, e);
+                    }
+                }
+            }
+            Err(e) => {
+                eprintln!("Error reading from stream for {}: {:?}", peer_addr, e);
+                break;
+            }
+        }
+    }
+    Ok(())
+}
+
 
 async fn post_to_moonraker(data: &str) -> Result<reqwest::Response, reqwest::Error> {
     //on the realy robot data will only be a E-Value and an int not a G-Code

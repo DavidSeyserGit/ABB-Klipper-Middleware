@@ -18,6 +18,6 @@ pub fn generate_auth_token() -> String {
     token
 }
 
-pub fn calculate_response(data: &str) -> String {
-    data.to_string()
+pub fn calculate_response(token: &str) -> String {
+    token.to_string()
 }
