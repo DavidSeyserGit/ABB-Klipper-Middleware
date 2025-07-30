@@ -4,7 +4,35 @@ use reqwest;
 use std::error::Error;
 use tokio::runtime::Runtime;
 
+fn generate_auth_token() -> String {
+    use rand::{Rng, thread_rng};
+    // Define the character set to use for the token.
+    // This includes uppercase, lowercase letters, and digits.
+    const CHARSET: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const TOKEN_LENGTH: usize = 12; // Set your desired token length here
+
+    let mut rng = thread_rng();
+    let token: String = (0..TOKEN_LENGTH)
+        .map(|_| {
+            // Pick a random index into the CHARSET array
+            let idx = rng.gen_range(0..CHARSET.len());
+            // Convert the random byte (ASCII char) to a char
+            CHARSET[idx] as char
+        })
+        .collect(); // Collect all characters into a String
+
+    token
+}
+
+
+fn calculate_response(data: &str) -> String {
+    data.to_string()
+}
+
 fn main() -> Result<(), Box<dyn Error>> {
+    let token = generate_auth_token();
+    println!("Generated auth token: {}", token);
+
     let listener = TcpListener::bind("10.0.0.10:1234")?; // needs to be changed to the robot IP or 0.0.0.0:6969
     let rt = Runtime::new()?;
 
