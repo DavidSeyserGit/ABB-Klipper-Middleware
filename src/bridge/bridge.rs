@@ -19,7 +19,7 @@ use log4rs::filter::threshold::ThresholdFilter;
 
 // Load YOUR OWN config at startup (external file)
 #[derive(serde::Deserialize)]
-struct Config { // This is YOUR custom Config struct for listener_ip, auth_token, whitelist
+struct Config {
     listener_ip: String,
     auth_token: String,
     whitelist: Option<Vec<String>>,
