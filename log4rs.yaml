@@ -1,0 +1,47 @@
+# A basic rolling file appender configuration
+# This will write logs to `log/app.log`,
+# rotate it daily, and keep up to 7 old compressed log files.
+appenders:
+  # Console appender (useful for development/debug, keep for dev/ops viewing)
+  stdout:
+    kind: console
+    encoder:
+      pattern: "{d(%Y-%m-%d %H:%M:%S%.3f %Z)(utc)} {h({l})} {M} {t} - {m}{n}"
+
+  # Rolling file appender
+  rolling_file:
+    kind: rolling_file
+    path: "log/log.log" # The current log file path
+    encoder:
+      pattern: "{d(%Y-%m-%d %H:%M:%S%.3f %Z)(utc)} {h({l})} {M} {t} - {m}{n}" # UTC time, Level, Module, Thread, Message
+    policy:
+      trigger:
+        kind: size
+        limit: 100mb # Rotate when file reaches 100MB
+      roller:
+        kind: fixed_window
+        base: 1
+        count: 5 # Keep 5 old log files
+        pattern: "log/app.{}.log.gz" # Name pattern for rolled files (e.g., app.1.log.gz)
+
+# Root logger definition
+root:
+  level: info # Default log level for all modules
+  appenders:
+    - stdout
+    - rolling_file
+
+# Specific logger configurations (optional)
+loggers:
+  # Example: Make reqwest logs less verbose unless in debug mode
+  reqwest:
+    level: warn
+  hyper:
+    level: warn
+  # Set your crate's log level to debug if you want more internal messages
+  bridge: # Replace 'bridge' with your crate name from Cargo.toml if different
+    level: debug
+    appenders:
+      - stdout
+      - rolling_file
+    additive: false # Important: This prevents logs from 'bridge' also going to root appenders at 'info' level

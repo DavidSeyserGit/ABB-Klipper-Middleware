@@ -9,7 +9,7 @@ PORT = 1234         # The port your Rust server is listening on
 # --- IMPORTANT: Get the token from your Rust server's console when it starts ---
 # You will need to manually copy the token printed by the Rust server when it starts.
 # For a real application, you'd have a more robust token exchange mechanism.
-AUTH_TOKEN = "dyPNeEcfMzdD" # <--- REPLACE THIS WITH THE ACTUAL TOKEN from Rust server output!
+AUTH_TOKEN = "ShQnC!dPu,8209" # <--- REPLACE THIS WITH THE ACTUAL TOKEN from Rust server output!
 # Example: AUTH_TOKEN = "e8B4zQp9xYm2L3k5R7J1wXcHfG0sV8"
 
 

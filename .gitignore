@@ -6,3 +6,6 @@ lib64/
 pyvenv.cfg
 include/
 config.toml
+output/
+input/
+logs/

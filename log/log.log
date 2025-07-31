@@ -1,0 +1,49 @@
+2025-07-30 19:02:14.527 UTC INFO bridge bridge - Application starting...
+2025-07-30 19:02:14.528 UTC INFO bridge bridge - Generated Auth Token: ShQnC!dPu,8209
+2025-07-30 19:02:14.528 UTC INFO bridge bridge - ✅ Listening on: 0.0.0.0:1234
+2025-07-30 19:02:42.741 UTC INFO bridge bridge - New connection from: 127.0.0.1 (socket: 127.0.0.1:57813)
+2025-07-30 19:02:42.741 UTC INFO bridge bridge - Authentication successful for 127.0.0.1 with token.
+2025-07-30 19:02:42.845 UTC DEBUG bridge bridge - Received data from 127.0.0.1: E100
+
+2025-07-30 19:02:42.846 UTC DEBUG bridge bridge - Preparing G-code: G1 E100
+
+2025-07-30 19:02:42.861 UTC ERROR bridge bridge - Error posting to Moonraker for 127.0.0.1: reqwest::Error { kind: Request, url: "http://127.0.0.1:7125/printer/gcode/script?script=G1+E100%0A", source: hyper_util::client::legacy::Error(Connect, ConnectError("tcp connect error", 127.0.0.1:7125, Os { code: 61, kind: ConnectionRefused, message: "Connection refused" })) }
+2025-07-30 19:02:43.351 UTC DEBUG bridge bridge - Received data from 127.0.0.1: F5000
+
+2025-07-30 19:02:43.354 UTC DEBUG bridge bridge - Preparing G-code: G1 F5000
+
+2025-07-30 19:02:43.356 UTC ERROR bridge bridge - Error posting to Moonraker for 127.0.0.1: reqwest::Error { kind: Request, url: "http://127.0.0.1:7125/printer/gcode/script?script=G1+F5000%0A", source: hyper_util::client::legacy::Error(Connect, ConnectError("tcp connect error", 127.0.0.1:7125, Os { code: 61, kind: ConnectionRefused, message: "Connection refused" })) }
+2025-07-30 19:02:43.853 UTC DEBUG bridge bridge - Received data from 127.0.0.1: E-50
+
+2025-07-30 19:02:43.853 UTC DEBUG bridge bridge - Preparing G-code: G1 E-50
+
+2025-07-30 19:02:43.855 UTC ERROR bridge bridge - Error posting to Moonraker for 127.0.0.1: reqwest::Error { kind: Request, url: "http://127.0.0.1:7125/printer/gcode/script?script=G1+E-50%0A", source: hyper_util::client::legacy::Error(Connect, ConnectError("tcp connect error", 127.0.0.1:7125, Os { code: 61, kind: ConnectionRefused, message: "Connection refused" })) }
+2025-07-30 19:02:44.355 UTC DEBUG bridge bridge - Received data from 127.0.0.1: X100 Y50 Z20
+
+2025-07-30 19:02:44.355 UTC DEBUG bridge bridge - Preparing G-code: G1 X100 Y50 Z20
+
+2025-07-30 19:02:44.359 UTC ERROR bridge bridge - Error posting to Moonraker for 127.0.0.1: reqwest::Error { kind: Request, url: "http://127.0.0.1:7125/printer/gcode/script?script=G1+X100+Y50+Z20%0A", source: hyper_util::client::legacy::Error(Connect, ConnectError("tcp connect error", 127.0.0.1:7125, Os { code: 61, kind: ConnectionRefused, message: "Connection refused" })) }
+2025-07-30 19:02:44.860 UTC INFO bridge bridge - Connection from 127.0.0.1 closed.
+2025-07-30 19:05:02.451 UTC INFO bridge bridge - New connection from: 127.0.0.1 (socket: 127.0.0.1:57994)
+2025-07-30 19:05:02.452 UTC INFO bridge bridge - Authentication successful for 127.0.0.1 with token.
+2025-07-30 19:05:02.545 UTC DEBUG bridge bridge - Received data from 127.0.0.1: E100
+
+2025-07-30 19:05:02.547 UTC DEBUG bridge bridge - Preparing G-code: G1 E100
+
+2025-07-30 19:05:02.557 UTC ERROR bridge bridge - Error posting to Moonraker for 127.0.0.1: reqwest::Error { kind: Request, url: "http://127.0.0.1:7125/printer/gcode/script?script=G1+E100%0A", source: hyper_util::client::legacy::Error(Connect, ConnectError("tcp connect error", 127.0.0.1:7125, Os { code: 61, kind: ConnectionRefused, message: "Connection refused" })) }
+2025-07-30 19:05:03.051 UTC DEBUG bridge bridge - Received data from 127.0.0.1: F5000
+
+2025-07-30 19:05:03.051 UTC DEBUG bridge bridge - Preparing G-code: G1 F5000
+
+2025-07-30 19:05:03.053 UTC ERROR bridge bridge - Error posting to Moonraker for 127.0.0.1: reqwest::Error { kind: Request, url: "http://127.0.0.1:7125/printer/gcode/script?script=G1+F5000%0A", source: hyper_util::client::legacy::Error(Connect, ConnectError("tcp connect error", 127.0.0.1:7125, Os { code: 61, kind: ConnectionRefused, message: "Connection refused" })) }
+2025-07-30 19:05:03.556 UTC DEBUG bridge bridge - Received data from 127.0.0.1: E-50
+
+2025-07-30 19:05:03.556 UTC DEBUG bridge bridge - Preparing G-code: G1 E-50
+
+2025-07-30 19:05:03.558 UTC ERROR bridge bridge - Error posting to Moonraker for 127.0.0.1: reqwest::Error { kind: Request, url: "http://127.0.0.1:7125/printer/gcode/script?script=G1+E-50%0A", source: hyper_util::client::legacy::Error(Connect, ConnectError("tcp connect error", 127.0.0.1:7125, Os { code: 61, kind: ConnectionRefused, message: "Connection refused" })) }
+2025-07-30 19:05:04.057 UTC DEBUG bridge bridge - Received data from 127.0.0.1: X100 Y50 Z20
+
+2025-07-30 19:05:04.057 UTC DEBUG bridge bridge - Preparing G-code: G1 X100 Y50 Z20
+
+2025-07-30 19:05:04.059 UTC ERROR bridge bridge - Error posting to Moonraker for 127.0.0.1: reqwest::Error { kind: Request, url: "http://127.0.0.1:7125/printer/gcode/script?script=G1+X100+Y50+Z20%0A", source: hyper_util::client::legacy::Error(Connect, ConnectError("tcp connect error", 127.0.0.1:7125, Os { code: 61, kind: ConnectionRefused, message: "Connection refused" })) }
+2025-07-30 19:05:04.558 UTC INFO bridge bridge - Connection from 127.0.0.1 closed.
