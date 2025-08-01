@@ -7,10 +7,6 @@ mod auth;
 use auth as cr;
 use std::fs;
 use log::{info, warn, error, debug}; // Import logging macros
-use log4rs::config::{Appender, Config as Log4rsConfig, Root}; // Renamed to Log4rsConfig to avoid conflict
-use log4rs::append::console::ConsoleAppender;
-use log4rs::encode::pattern::PatternEncoder;
-use log4rs::filter::threshold::ThresholdFilter;
 
 // --- REMOVE THIS LINE: use log4rs::file::Config as Log4rsFileConfig; ---
 // We don't need to import log4rs::file::Config because we're not using it directly
