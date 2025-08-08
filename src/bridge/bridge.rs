@@ -5,12 +5,13 @@ use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::{Duration, Instant};
 
-use chrono::Local;
+use chrono::{Local, DateTime};
 use colored::*;
 use crossterm::{cursor, execute, terminal};
 use log::{info, error, warn, debug};
 use reqwest;
 use tokio::runtime::Runtime;
+use sysinfo::{System};
 
 mod auth;
 use auth as cr;
@@ -32,6 +33,16 @@ struct ClientInfo {
     status: String,
 }
 
+#[derive(Default)]
+struct Stats {
+    start_time: DateTime<Local>,
+    total_connections: usize,
+    bytes_sent: usize,
+    bytes_received: usize,
+    last_command: String,
+    moonraker_online: bool,
+}
+
 fn main() -> Result<(), Box<dyn Error>> {
     // Initialize logging from log4rs.yaml
     log4rs::init_file("log4rs.yaml", Default::default())?;
@@ -40,11 +51,17 @@ fn main() -> Result<(), Box<dyn Error>> {
     let clients: Arc<Mutex<HashMap<String, ClientInfo>>> =
         Arc::new(Mutex::new(HashMap::new()));
 
+    let stats = Arc::new(Mutex::new(Stats {
+        start_time: Local::now(),
+        ..Default::default()
+    }));
+
     // Start dashboard thread
     {
         let clients = Arc::clone(&clients);
+        let stats = Arc::clone(&stats);
         thread::spawn(move || loop {
-            draw_dashboard(&clients);
+            draw_dashboard(&clients, &stats);
             thread::sleep(Duration::from_millis(500));
         });
     }
@@ -81,6 +98,11 @@ fn main() -> Result<(), Box<dyn Error>> {
                 );
                 info!("New connection from {} ({})", peer_ip_addr, peer_socket_addr);
 
+                {
+                    let mut s = stats.lock().unwrap();
+                    s.total_connections += 1;
+                }
+
                 // Whitelist check
                 if config
                     .whitelist
@@ -104,6 +126,10 @@ fn main() -> Result<(), Box<dyn Error>> {
                         if sz == 0 {
                             warn!("Empty connection from {}", peer_ip_addr);
                             continue;
+                        }
+                        {
+                            let mut s = stats.lock().unwrap();
+                            s.bytes_received += sz;
                         }
                         let received_token = String::from_utf8_lossy(&buffer[..sz])
                             .trim()
@@ -130,7 +156,8 @@ fn main() -> Result<(), Box<dyn Error>> {
                             info!("Authentication successful for {}", peer_ip_addr);
 
                             let clients_clone = Arc::clone(&clients);
-                            let rt_clone = Arc::clone(&rt); // ✅ Clone Arc<Runtime>
+                            let stats_clone = Arc::clone(&stats);
+                            let rt_clone = Arc::clone(&rt);
                             let mut stream_clone = stream.try_clone()?;
                             let ip_clone = peer_ip_addr.clone();
 
@@ -140,6 +167,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                                     &rt_clone,
                                     &ip_clone,
                                     clients_clone,
+                                    stats_clone,
                                 )
                                 .unwrap_or_else(|e| {
                                     error!("Client {} error: {:?}", ip_clone, e)
@@ -173,9 +201,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 
 fn handle_client(
     stream: &mut TcpStream,
-    rt: &Arc<Runtime>, // ✅ Now takes Arc<Runtime>
+    rt: &Arc<Runtime>,
     ip: &str,
     clients: Arc<Mutex<HashMap<String, ClientInfo>>>,
+    stats: Arc<Mutex<Stats>>,
 ) -> Result<(), Box<dyn Error>> {
     let mut buffer = [0; 1024];
     loop {
@@ -194,6 +223,10 @@ fn handle_client(
                     info!("Connection closed for {}", ip);
                     break;
                 }
+                {
+                    let mut s = stats.lock().unwrap();
+                    s.bytes_received += sz;
+                }
                 let received_data = String::from_utf8_lossy(&buffer[..sz]).to_string();
 
                 {
@@ -204,8 +237,21 @@ fn handle_client(
                     }
                 }
 
+                {
+                    let mut s = stats.lock().unwrap();
+                    s.last_command = received_data.clone();
+                }
+
                 debug!("{} → Sending to Moonraker: {}", ip, received_data);
-                let _ = rt.block_on(post_to_moonraker(&received_data));
+                let res = rt.block_on(post_to_moonraker(&received_data));
+                if res.is_ok() {
+                    let mut s = stats.lock().unwrap();
+                    s.bytes_sent += received_data.len();
+                    s.moonraker_online = true;
+                } else {
+                    let mut s = stats.lock().unwrap();
+                    s.moonraker_online = false;
+                }
             }
             Err(e) => {
                 let mut map = clients.lock().unwrap();
@@ -233,7 +279,10 @@ async fn post_to_moonraker(
     Ok(response)
 }
 
-fn draw_dashboard(clients: &Arc<Mutex<HashMap<String, ClientInfo>>>) {
+fn draw_dashboard(
+    clients: &Arc<Mutex<HashMap<String, ClientInfo>>>,
+    stats: &Arc<Mutex<Stats>>,
+) {
     let mut stdout = std::io::stdout();
     execute!(
         stdout,
@@ -242,74 +291,56 @@ fn draw_dashboard(clients: &Arc<Mutex<HashMap<String, ClientInfo>>>) {
     )
     .unwrap();
 
-    // Header
+    let sys = System::new_all();
+    let cpu_usage = sys.global_cpu_usage();
+    let total_mem = sys.total_memory() / 1024 / 1024;
+    let used_mem = (sys.total_memory() - sys.available_memory()) / 1024 / 1024;
+
+    let s = stats.lock().unwrap();
+    let uptime = Local::now() - s.start_time;
+    let active_connections = clients.lock().unwrap().len();
+
     println!(
         "{} @ {}",
-        "Active Connection Stats".bright_magenta().bold(),
+        "ABB Klipper Middleware".bright_green().bold(),
         Local::now().format("%Y-%m-%d %H:%M:%S").to_string().bright_white()
+    );
+    println!(
+        "Uptime: {} | Active: {} | Total: {} | CPU: {:.1}% | RAM: {} MB / {} MB | Moonraker: {}",
+        format!("{:02}:{:02}:{:02}", uptime.num_hours(), uptime.num_minutes() % 60, uptime.num_seconds() % 60).bright_cyan(),
+        active_connections.to_string().bright_green(),
+        s.total_connections.to_string().bright_white(),
+        cpu_usage,
+        used_mem,
+        total_mem,
+        if s.moonraker_online { "🟢 Online".bright_green() } else { "🔴 Offline".bright_red() }
+    );
+    println!(
+        "Data Sent: {} bytes | Data Received: {} bytes | Last Command: {}",
+        s.bytes_sent.to_string().bright_yellow(),
+        s.bytes_received.to_string().bright_yellow(),
+        s.last_command.bright_white()
     );
     println!("{}", "─".repeat(100).bright_black());
 
-    // Column titles with dynamic width scaling
-    let term_width = terminal::size().map(|(w, _)| w).unwrap_or(100) as usize;
-    let col_widths = [20, 12, 12, 9, 15, 7]; // Default widths
-    let total_static: usize = col_widths.iter().sum::<usize>() + col_widths.len() - 1;
-    let dynamic_width = if term_width > total_static {
-        term_width - total_static
-    } else {
-        0
-    };
-
     println!(
-        "{:<width_ip$} {:<width_conn$} {:<width_last$} {:<width_pct$} {:<width_stat$}",
+        "{:<20} {:<20} {:<20} {:<30}",
         "IP".bright_white().bold(),
         "Connected".bright_white().bold(),
-        "Last Act".bright_white().bold(),
-        "% Act".bright_white().bold(),
-        "Status".bright_white().bold(),
-        width_ip = col_widths[0],
-        width_conn = col_widths[1],
-        width_last = col_widths[2],
-        width_pct = col_widths[3],
-        width_stat = col_widths[4] + dynamic_width, // give extra space to Status dynamically
+        "Last Activity".bright_white().bold(),
+        "Status".bright_white().bold()
     );
-    println!("{}", "─".repeat(term_width).bright_black());
+    println!("{}", "─".repeat(100).bright_black());
 
     let map = clients.lock().unwrap();
     for client in map.values() {
-        let seconds_since_activity = client.last_activity.elapsed().as_secs();
-        let percent_active = if seconds_since_activity < 5 {
-            100
-        } else if seconds_since_activity < 30 {
-            80
-        } else if seconds_since_activity < 60 {
-            50
-        } else {
-            10
-        };
-
-        let percent_colored = if percent_active >= 80 {
-            format!("{}%", percent_active).bright_green()
-        } else if percent_active >= 50 {
-            format!("{}%", percent_active).bright_yellow()
-        } else {
-            format!("{}%", percent_active).bright_red()
-        };
-
         println!(
-            "{:<width_ip$} {:<width_conn$} {:<width_last$} {:<width_pct$} {:<width_stat$}",
+            "{:<20} {:<20} {:<20} {:<30}",
             client.ip.bright_cyan(),
             format!("{:?}", client.connected_at.elapsed()).bright_green(),
             format!("{:?}", client.last_activity.elapsed()).bright_yellow(),
-            percent_colored,
-            client.status.clone(),
-
-            width_ip = col_widths[0],
-            width_conn = col_widths[1],
-            width_last = col_widths[2],
-            width_pct = col_widths[3],
-            width_stat = col_widths[4] + dynamic_width,
+            client.status.clone()
         );
     }
-    println!("{}", "─".repeat(term_width).bright_black());
+    println!("{}", "─".repeat(100).bright_black());
 }
