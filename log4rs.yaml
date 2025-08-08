@@ -28,7 +28,6 @@ appenders:
 root:
   level: info # Default log level for all modules
   appenders:
-    - stdout
     - rolling_file
 
 # Specific logger configurations (optional)
@@ -42,6 +41,5 @@ loggers:
   bridge: # Replace 'bridge' with your crate name from Cargo.toml if different
     level: debug
     appenders:
-      - stdout
       - rolling_file
     additive: false # Important: This prevents logs from 'bridge' also going to root appenders at 'info' level

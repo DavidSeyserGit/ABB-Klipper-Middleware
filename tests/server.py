@@ -62,10 +62,30 @@ if __name__ == "__main__":
 
     # These are the messages to send AFTER the token is sent
     test_messages = [
-        "E100",
-        "F5000",
-        "E-50",
-        "X100 Y50 Z20"
+        "E900",
+        "F0",
+        "E1000",
+        "X88 Y69 Z420"
+        "E900",
+        "F0",
+        "E1000",
+        "X88 Y69 Z420"
+        "E900",
+        "F0",
+        "E1000",
+        "X88 Y69 Z420"
+        "E900",
+        "F0",
+        "E1000",
+        "X88 Y69 Z420"
+        "E900",
+        "F0",
+        "E1000",
+        "X88 Y69 Z420"
+        "E900",
+        "F0",
+        "E1000",
+        "X88 Y69 Z420"
     ]
 
     connect_and_send_messages(AUTH_TOKEN, test_messages)
