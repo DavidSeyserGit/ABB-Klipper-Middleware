@@ -764,3 +764,187 @@
 2025-08-08 13:29:05.775 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420
 
 2025-08-08 13:29:06.280 UTC INFO bridge::client bridge::client - Connection closed for 127.0.0.1
+2025-08-08 13:29:36.843 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-08 13:29:36.843 UTC INFO bridge bridge - Listening on 0.0.0.0:1234
+2025-08-08 13:31:04.778 UTC INFO bridge bridge - New connection from 127.0.0.1 (127.0.0.1:61721)
+2025-08-08 13:31:04.780 UTC INFO bridge bridge - Authentication successful for 127.0.0.1
+2025-08-08 13:31:04.882 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E900
+
+2025-08-08 13:31:05.387 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:31:05.892 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:31:06.393 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 13:31:06.897 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:31:07.402 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:31:07.903 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 13:31:08.408 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:31:08.911 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:31:09.413 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 13:31:09.919 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:31:10.424 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:31:10.925 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 13:31:11.426 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:31:11.931 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:31:12.437 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 13:31:12.938 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:31:13.440 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:31:13.945 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420
+
+2025-08-08 13:31:14.450 UTC INFO bridge::client bridge::client - Connection closed for 127.0.0.1
+2025-08-08 13:31:58.193 UTC INFO bridge bridge - New connection from 127.0.0.1 (127.0.0.1:61754)
+2025-08-08 13:31:58.194 UTC INFO bridge bridge - Authentication successful for 127.0.0.1
+2025-08-08 13:31:58.298 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E900
+
+2025-08-08 13:31:58.804 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:31:59.307 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:31:59.811 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 13:32:00.316 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:32:00.821 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:32:01.322 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 13:32:01.823 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:32:02.325 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:32:02.830 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 13:32:03.336 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:32:03.841 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:32:04.346 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 13:32:04.851 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:32:05.357 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:32:05.862 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 13:32:06.364 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:32:06.866 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:32:07.368 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420
+
+2025-08-08 13:32:07.869 UTC INFO bridge::client bridge::client - Connection closed for 127.0.0.1
+2025-08-08 13:32:48.038 UTC INFO bridge bridge - New connection from 127.0.0.1 (127.0.0.1:61789)
+2025-08-08 13:32:48.039 UTC INFO bridge bridge - Authentication successful for 127.0.0.1
+2025-08-08 13:32:48.144 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E900
+
+2025-08-08 13:32:48.649 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:32:49.153 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:32:49.658 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 13:32:50.163 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:32:50.259 UTC INFO bridge::client bridge::client - Connection closed for 127.0.0.1
+2025-08-08 13:37:39.004 UTC INFO bridge bridge - New connection from 127.0.0.1 (127.0.0.1:62041)
+2025-08-08 13:37:39.005 UTC INFO bridge bridge - Authentication successful for 127.0.0.1
+2025-08-08 13:37:39.107 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E900
+
+2025-08-08 13:37:39.611 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:37:40.113 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:37:40.618 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 13:37:41.123 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:37:41.627 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 13:37:42.133 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 13:37:42.635 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 13:37:42.975 UTC INFO bridge::client bridge::client - Connection closed for 127.0.0.1
+2025-08-08 14:02:08.352 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-08 14:02:08.352 UTC INFO bridge bridge - Listening on 0.0.0.0:1234
+2025-08-08 14:02:08.354 UTC INFO warp::server warp::server - Server::run; addr=0.0.0.0:8080
+2025-08-08 14:02:08.354 UTC INFO warp::server warp::server - listening on http://0.0.0.0:8080
+2025-08-08 14:02:15.368 UTC INFO bridge bridge - New connection from 127.0.0.1 (127.0.0.1:62423)
+2025-08-08 14:02:15.369 UTC INFO bridge bridge - Authentication successful for 127.0.0.1
+2025-08-08 14:02:15.474 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E900
+
+2025-08-08 14:02:15.978 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 14:02:16.481 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 14:02:16.984 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 14:02:17.486 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 14:02:17.988 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 14:02:18.490 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 14:02:18.991 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 14:02:19.494 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 14:02:19.996 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 14:02:20.356 UTC INFO bridge::client bridge::client - Connection closed for 127.0.0.1
+2025-08-08 14:19:09.988 UTC INFO bridge bridge - New connection from 127.0.0.1 (127.0.0.1:62880)
+2025-08-08 14:19:09.991 UTC INFO bridge bridge - Authentication successful for 127.0.0.1
+2025-08-08 14:19:10.093 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E900
+
+2025-08-08 14:19:10.598 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 14:19:11.103 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 14:19:11.608 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 14:19:12.112 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 14:19:12.614 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 14:19:13.119 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 14:19:13.624 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 14:19:14.126 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 14:19:14.631 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 14:19:15.135 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 14:19:15.640 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 14:19:16.141 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 14:19:16.644 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 14:19:17.150 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 14:19:17.655 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-08 14:19:18.160 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-08 14:19:18.665 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-08 14:19:19.166 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420
+
+2025-08-08 14:19:19.670 UTC INFO bridge::client bridge::client - Connection closed for 127.0.0.1

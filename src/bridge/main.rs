@@ -2,6 +2,7 @@ mod auth;
 mod dashboard;
 mod client;
 mod config;
+pub mod api;
 
 use std::net::TcpListener;
 use std::io::Read;
@@ -29,6 +30,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         thread::spawn(move || loop {
             draw_dashboard(&clients);
             thread::sleep(Duration::from_millis(500));
+        });
+    }
+
+    // Start HTTP API thread
+    {
+        let clients = Arc::clone(&clients);
+        std::thread::spawn(move || {
+            let rt = tokio::runtime::Runtime::new().unwrap();
+            rt.block_on(api::run_api(clients));
         });
     }
 

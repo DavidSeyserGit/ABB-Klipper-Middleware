@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ABB Klipper Middleware Dashboard</title>
+    <style>
+        /* ===== Theme Variables ===== */
+        :root {
+            --color-bg: #111;
+            --color-text: #eee;
+            --color-accent: rgb(0, 100, 156);
+            --color-card-bg: #1a1a1a;
+            --color-header-bg: #222;
+            --color-border: #333;
+            --color-border-light: #444;
+            --color-shadow: rgba(0,0,0,0.5);
+            --color-muted: #aaa;
+            --color-online: rgb(139, 179, 29);
+            --color-offline: #f00;
+            --color-hover: #2a2a2a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: var(--color-accent);
+            margin-bottom: 5px;
+        }
+        h2 {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 5px;
+        }
+        /* Stats section as cards */
+        .stats-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            background-color: var(--color-card-bg);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px var(--color-shadow);
+            min-width: 200px;
+        }
+        .stat-card strong {
+            display: block;
+            font-size: 0.9em;
+            color: var(--color-muted);
+            margin-bottom: 5px;
+        }
+        .stat-card span {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background-color: var(--color-card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px var(--color-shadow);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--color-header-bg);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.85em;
+        }
+        tr {
+            border-bottom: 1px solid var(--color-border);
+        }
+        tr:last-child {
+            border-bottom: none;
+        }
+        tr:hover {
+            background-color: var(--color-hover);
+        }
+        .status-online {
+            color: var(--color-online);
+            font-weight: bold;
+        }
+        .status-offline {
+            color: var(--color-offline);
+            font-weight: bold;
+        }
+        .status-icon {
+            margin-right: 6px;
+        }
+    </style>
+    <meta http-equiv="refresh" content="1">
+</head>
+<body>
+    <h1>ABB Klipper Middleware Dashboard</h1>
+
+    <h2>Stats</h2>
+    <div class="stats-container">
+        <div class="stat-card">
+            <strong>Data Sent</strong>
+            <span>{{ stats['data_sent'] }} bytes</span>
+        </div>
+        <div class="stat-card">
+            <strong>Data Received</strong>
+            <span>{{ stats['data_received'] }} bytes</span>
+        </div>
+        <div class="stat-card">
+            <strong>Last Command</strong>
+            <span>{{ stats['last_command'] }}</span>
+        </div>
+    </div>
+
+    <h2>Clients</h2>
+    <table>
+        <tr>
+            <th>IP</th>
+            <th>Connected (secs)</th>
+            <th>Last Activity (secs)</th>
+            <th>Status</th>
+        </tr>
+        {% for client in clients %}
+        <tr>
+            <td>{{ client['ip'] }}</td>
+            <td>{{ client['connected_at_secs'] }}</td>
+            <td>{{ client['last_activity_secs'] }}</td>
+            <td class="{% if 'Online' in client['status'] %}status-online{% else %}status-offline{% endif %}">
+                <span class="status-icon">{% if 'Online' in client['status'] %}🟢{% else %}🔴{% endif %}</span>
+                {{ client['status'] }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
