@@ -1288,3 +1288,110 @@
 2025-08-08 16:07:07.429 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420
 
 2025-08-08 16:07:07.935 UTC INFO bridge::client bridge::client - Connection closed for 127.0.0.1
+2025-08-09 07:55:28.638 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-09 07:55:28.638 UTC INFO bridge bridge - Listening on 0.0.0.0:1234
+2025-08-09 07:55:28.640 UTC INFO warp::server warp::server - Server::run; addr=0.0.0.0:8080
+2025-08-09 07:55:28.640 UTC INFO warp::server warp::server - listening on http://0.0.0.0:8080
+2025-08-09 07:56:03.123 UTC INFO bridge bridge - New connection from 127.0.0.1 (127.0.0.1:64445)
+2025-08-09 07:56:03.135 UTC WARN bridge bridge - Invalid token from 127.0.0.1 (got 'GET / HTTP/1.1
+Host: 127.0.0.1:1234
+Connection: keep-alive
+sec-ch-ua: "Brave";v="137", "Chromium";v="137", "Not/A)Brand";v="24"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8
+Sec-GPC: 1
+Accept-Language: en-US,en;q=0.5
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Cookie: session-ec119aa3=eyJjc3JmVG9rZW4iOiJkM2E3ZjZjZDdjYTk1YmViZThkZTQ1ZWVhYTg4YmM5MTE5YzUzYWM2NjI3NzgwMDhiZWE0ZjY2NzlkY2YwYzcyIn0=; session-ec119aa3.sig=GIXjsI7PUrKr9JXT-EJkJssRRDE', expected 'ShQnC!dPu,8209')
+2025-08-09 07:56:04.165 UTC INFO bridge bridge - New connection from 127.0.0.1 (127.0.0.1:64446)
+2025-08-09 07:56:04.165 UTC WARN bridge bridge - Invalid token from 127.0.0.1 (got 'GET / HTTP/1.1
+Host: 127.0.0.1:1234
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: "Brave";v="137", "Chromium";v="137", "Not/A)Brand";v="24"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8
+Sec-GPC: 1
+Accept-Language: en-US,en;q=0.5
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Cookie: session-ec119aa3=eyJjc3JmVG9rZW4iOiJkM2E3ZjZjZDdjYTk1YmViZThkZTQ1ZWVhYTg4YmM5MTE5YzUzYWM2NjI3NzgwMDhiZWE0ZjY2NzlkY2YwYzcyIn0=; session-ec119aa3.sig=GIXjsI7PUrKr9JXT-EJkJssRRDE', expected 'ShQnC!dPu,8209')
+2025-08-09 07:56:09.183 UTC INFO bridge bridge - New connection from 127.0.0.1 (127.0.0.1:64447)
+2025-08-09 07:56:09.183 UTC WARN bridge bridge - Invalid token from 127.0.0.1 (got 'GET / HTTP/1.1
+Host: 127.0.0.1:1234
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: "Brave";v="137", "Chromium";v="137", "Not/A)Brand";v="24"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "macOS"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8
+Sec-GPC: 1
+Accept-Language: en-US,en;q=0.5
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br, zstd
+Cookie: session-ec119aa3=eyJjc3JmVG9rZW4iOiJkM2E3ZjZjZDdjYTk1YmViZThkZTQ1ZWVhYTg4YmM5MTE5YzUzYWM2NjI3NzgwMDhiZWE0ZjY2NzlkY2YwYzcyIn0=; session-ec119aa3.sig=GIXjsI7PUrKr9JXT-EJkJssRRDE', expected 'ShQnC!dPu,8209')
+2025-08-09 07:57:37.256 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-09 07:57:37.256 UTC INFO bridge bridge - Listening on 0.0.0.0:1234
+2025-08-09 07:57:37.258 UTC INFO warp::server warp::server - Server::run; addr=0.0.0.0:8080
+2025-08-09 07:57:37.258 UTC INFO warp::server warp::server - listening on http://0.0.0.0:8080
+2025-08-09 08:01:17.515 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-09 08:01:17.515 UTC INFO bridge bridge - Listening on 0.0.0.0:1234
+2025-08-09 08:01:17.517 UTC INFO warp::server warp::server - Server::run; addr=0.0.0.0:8080
+2025-08-09 08:01:17.517 UTC INFO warp::server warp::server - listening on http://0.0.0.0:8080
+2025-08-09 08:03:32.039 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-09 08:03:32.039 UTC INFO bridge bridge - Listening on 0.0.0.0:1234
+2025-08-09 08:05:03.706 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-09 08:05:03.706 UTC INFO bridge bridge - Listening on 0.0.0.0:1234
+2025-08-09 08:05:45.510 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-09 08:05:45.511 UTC INFO bridge bridge - Listening on 0.0.0.0:1234
+2025-08-09 23:12:15.633 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-09 23:12:15.634 UTC INFO bridge bridge - Listening on 0.0.0.0:1234
+2025-08-09 23:14:20.526 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-09 23:14:20.526 UTC INFO bridge bridge - Listening on 0.0.0.0:1234
+2025-08-09 23:16:42.207 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-09 23:16:42.208 UTC INFO bridge bridge - Listening on 0.0.0.0:1234
+2025-08-09 23:18:04.260 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-09 23:18:04.260 UTC INFO bridge bridge - Listening on 0.0.0.0:1987
+2025-08-09 23:18:04.262 UTC INFO warp::server warp::server - Server::run; addr=0.0.0.0:1000
+2025-08-09 23:18:04.262 UTC INFO warp::server warp::server - listening on http://0.0.0.0:1000
+2025-08-09 23:18:32.407 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-09 23:18:32.408 UTC INFO bridge bridge - Listening on 0.0.0.0:1987
+2025-08-09 23:19:11.985 UTC INFO bridge bridge - New connection from 127.0.0.1 (127.0.0.1:57950)
+2025-08-09 23:19:11.985 UTC INFO bridge bridge - Authentication successful for 127.0.0.1
+2025-08-09 23:19:12.089 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E900
+
+2025-08-09 23:19:12.588 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-09 23:19:13.090 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-09 23:19:13.594 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-09 23:19:14.099 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-09 23:19:14.605 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-09 23:19:15.106 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-09 23:19:15.607 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-09 23:19:16.109 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-09 23:19:16.540 UTC INFO bridge::client bridge::client - Connection closed for 127.0.0.1
