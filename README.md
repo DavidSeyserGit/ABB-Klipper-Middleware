@@ -48,15 +48,8 @@ python3 converter.py --help
 
 ## License and Attributions
 
-This project is licensed under the GNU General Public License v3.0 (GPLv3).  See the [LICENSE](LICENSE) file for the full license text.
+This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for the full license text.
 
-This project incorporates the following third-party libraries/crates:
-
-* **[reqwest](https://github.com/seanmonstar/reqwest):** Licensed under the MIT License.  See the [MIT License](LICENSE-crate_name_1) file for the full license text.
-
-* **[colored](https://github.com/colored-rs/colored):** Licensed under the MPL-2.0. See the [MPL-2.0 License](LICENSE-crate_name_2) file for the full license text.
-
-* **[tokio](https://github.com/tokio-rs/tokio):** Licensed under the MIT. See the [MIT License](LICENSE-crate-name_3) file for the full license text.
 
 ## Explanation of Licenses
 
