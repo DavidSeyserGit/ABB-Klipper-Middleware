@@ -3,7 +3,8 @@ import time
 import sys
 
 # Configuration for connecting to the Rust server
-HOST = '127.0.0.1'  # The IP address your Rust server is listening on
+HOST = '127.0.0.1'
+#HOST = '192.168.0.100'  # The IP address your Rust server is listening on
 PORT = 1987         # The port your Rust server is listening on
 
 # --- IMPORTANT: Get the token from your Rust server's console when it starts ---

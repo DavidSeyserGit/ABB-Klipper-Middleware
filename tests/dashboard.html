@@ -62,24 +62,22 @@
         }
         /* Table styling */
         table {
-        width: 100%;
-        table-layout: fixed; /* ✅ Prevents column width changes */
-        border-collapse: collapse;
-        margin-top: 15px;
-        background-color: var(--color-card-bg);
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 0 10px var(--color-shadow);
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background-color: var(--color-card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px var(--color-shadow);
         }
-
         th, td {
             padding: 12px 15px;
             text-align: left;
-            white-space: nowrap;       /* ✅ Prevents wrapping */
-            overflow: hidden;          /* ✅ Hides overflow text */
-            text-overflow: ellipsis;   /* ✅ Adds "..." when text is too long */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-
         th {
             background-color: var(--color-header-bg);
             font-weight: bold;
@@ -87,12 +85,10 @@
             letter-spacing: 0.5px;
             font-size: 0.85em;
         }
-
-        /* ✅ Fixed column widths */
-        th:nth-child(1), td:nth-child(1) { width: 20%; } /* IP */
-        th:nth-child(2), td:nth-child(2) { width: 20%; } /* Connected */
-        th:nth-child(3), td:nth-child(3) { width: 20%; } /* Last Activity */
-        th:nth-child(4), td:nth-child(4) { width: 40%; } /* Status */
+        th:nth-child(1), td:nth-child(1) { width: 20%; }
+        th:nth-child(2), td:nth-child(2) { width: 20%; }
+        th:nth-child(3), td:nth-child(3) { width: 20%; }
+        th:nth-child(4), td:nth-child(4) { width: 40%; }
         tr {
             border-bottom: 1px solid var(--color-border);
         }
@@ -112,6 +108,20 @@
         }
         .status-icon {
             margin-right: 6px;
+        }
+        /* Logs styling */
+        .logs-container {
+            background-color: var(--color-card-bg);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px var(--color-shadow);
+            font-family: monospace;
+            font-size: 0.9em;
+            line-height: 1.2em; /* ✅ Reduced line height */
+            max-height: 500px;  /* ✅ Increased height */
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid var(--color-border);
         }
     </style>
     <meta http-equiv="refresh" content="1">
@@ -155,5 +165,13 @@
         </tr>
         {% endfor %}
     </table>
+
+    <!-- Logs Section -->
+    <h2>Logs</h2>
+    <div class="logs-container">
+        {% for line in logs %}
+        {{ line }}<br>
+        {% endfor %}
+    </div>
 </body>
 </html>

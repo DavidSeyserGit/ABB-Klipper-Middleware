@@ -1395,3 +1395,65 @@ Cookie: session-ec119aa3=eyJjc3JmVG9rZW4iOiJkM2E3ZjZjZDdjYTk1YmViZThkZTQ1ZWVhYTg
 2025-08-09 23:19:16.109 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
 
 2025-08-09 23:19:16.540 UTC INFO bridge::client bridge::client - Connection closed for 127.0.0.1
+2025-08-09 23:41:58.439 UTC INFO bridge bridge - ABB Klipper Middleware starting...
+2025-08-09 23:41:58.439 UTC INFO bridge bridge - Listening on 0.0.0.0:1987
+2025-08-09 23:41:58.441 UTC INFO warp::server warp::server - Server::run; addr=0.0.0.0:8080
+2025-08-09 23:41:58.441 UTC INFO warp::server warp::server - listening on http://0.0.0.0:8080
+2025-08-09 23:44:58.925 UTC INFO bridge bridge - New connection from 127.0.0.1 (127.0.0.1:60373)
+2025-08-09 23:44:58.928 UTC INFO bridge bridge - Authentication successful for 127.0.0.1
+2025-08-09 23:44:59.031 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E900
+
+2025-08-09 23:44:59.535 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-09 23:45:00.036 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-09 23:45:00.541 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-09 23:45:01.046 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-09 23:45:01.551 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-09 23:45:02.057 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-09 23:45:02.140 UTC INFO bridge::client bridge::client - Connection closed for 127.0.0.1
+2025-08-09 23:49:34.071 UTC INFO bridge bridge - New connection from 127.0.0.1 (127.0.0.1:62218)
+2025-08-09 23:49:34.073 UTC INFO bridge bridge - Authentication successful for 127.0.0.1
+2025-08-09 23:49:34.176 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E900
+
+2025-08-09 23:49:34.679 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-09 23:49:35.183 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-09 23:49:35.689 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-09 23:49:36.194 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-09 23:49:36.704 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-09 23:49:37.206 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-09 23:49:37.710 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-09 23:49:38.214 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-09 23:49:38.715 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-09 23:49:39.221 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-09 23:49:39.726 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-09 23:49:40.231 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-09 23:49:40.736 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-09 23:49:41.237 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-09 23:49:41.740 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420E900
+
+2025-08-09 23:49:42.243 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: F0
+
+2025-08-09 23:49:42.747 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: E1000
+
+2025-08-09 23:49:43.250 UTC DEBUG bridge::client bridge::client - 127.0.0.1 → Sending to Moonraker: X88 Y69 Z420
+
+2025-08-09 23:49:43.751 UTC INFO bridge::client bridge::client - Connection closed for 127.0.0.1
