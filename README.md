@@ -39,11 +39,12 @@ python3 converter.py --help
 
 ## Features
 
-* **Network Connection Management:** Establishes and manages a persistent network connections.
-* **Data Forwarding:** Reads data from the netwotk stream and forwards it to the Moonraker API.
-* **Configurable:** Allows customization of network connection parameters and Moonraker API endpoint.
-* **Error Handling:** Provides robust error handling for connection issues and API interactions.
-* **Minimal Dependencies:** Keeps dependencies to a minimum for a smaller footprint.
+### CLI Tooling
+<img width="800" height="444" alt="image" src="https://github.com/user-attachments/assets/1bcef15e-7245-4e7d-8ef9-53eae4176827" />
+
+### Web Dashboard
+<img width="800" height="872" alt="image" src="https://github.com/user-attachments/assets/a0e1ddf7-24af-48d6-a6ca-fb25450fb565" />
+
 
 ## License and Attributions
 
