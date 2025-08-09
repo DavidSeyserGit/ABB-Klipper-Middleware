@@ -13,7 +13,7 @@
             --color-border: #333;
             --color-border-light: #444;
             --color-shadow: rgba(0,0,0,0.5);
-            --color-muted: #aaa;
+            --color-muted: rgb(0, 100, 156);
             --color-online: rgb(139, 179, 29);
             --color-offline: #f00;
             --color-hover: #2a2a2a;
@@ -62,18 +62,24 @@
         }
         /* Table styling */
         table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            background-color: var(--color-card-bg);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 0 10px var(--color-shadow);
+        width: 100%;
+        table-layout: fixed; /* ✅ Prevents column width changes */
+        border-collapse: collapse;
+        margin-top: 15px;
+        background-color: var(--color-card-bg);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 10px var(--color-shadow);
         }
+
         th, td {
             padding: 12px 15px;
             text-align: left;
+            white-space: nowrap;       /* ✅ Prevents wrapping */
+            overflow: hidden;          /* ✅ Hides overflow text */
+            text-overflow: ellipsis;   /* ✅ Adds "..." when text is too long */
         }
+
         th {
             background-color: var(--color-header-bg);
             font-weight: bold;
@@ -81,6 +87,12 @@
             letter-spacing: 0.5px;
             font-size: 0.85em;
         }
+
+        /* ✅ Fixed column widths */
+        th:nth-child(1), td:nth-child(1) { width: 20%; } /* IP */
+        th:nth-child(2), td:nth-child(2) { width: 20%; } /* Connected */
+        th:nth-child(3), td:nth-child(3) { width: 20%; } /* Last Activity */
+        th:nth-child(4), td:nth-child(4) { width: 40%; } /* Status */
         tr {
             border-bottom: 1px solid var(--color-border);
         }
