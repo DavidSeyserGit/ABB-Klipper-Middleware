@@ -13,15 +13,12 @@ use reqwest;
 use tokio::runtime::Runtime;
 use sysinfo::{System};
 
-mod auth;
-use auth as cr;
 use std::error::Error;
 use std::fs;
 
 #[derive(serde::Deserialize)]
 struct Config {
     listener_ip: String,
-    auth_token: String,
     whitelist: Option<Vec<String>>,
 }
 
@@ -86,7 +83,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     for stream in listener.incoming() {
         match stream {
-            Ok(mut stream) => {
+            Ok(stream) => {
                 let peer_socket_addr = stream.peer_addr()?;
                 let peer_ip_addr = peer_socket_addr.ip().to_string();
 
@@ -118,77 +115,38 @@ fn main() -> Result<(), Box<dyn Error>> {
                     continue;
                 }
 
-                let expected_auth_token = cr::calculate_response(&config.auth_token);
-
-                let mut buffer = [0; 1024];
-                match stream.read(&mut buffer) {
-                    Ok(sz) => {
-                        if sz == 0 {
-                            warn!("Empty connection from {}", peer_ip_addr);
-                            continue;
-                        }
-                        {
-                            let mut s = stats.lock().unwrap();
-                            s.bytes_received += sz;
-                        }
-                        let received_token = String::from_utf8_lossy(&buffer[..sz])
-                            .trim()
-                            .to_string();
-
-                        if received_token == expected_auth_token {
-                            {
-                                let mut map = clients.lock().unwrap();
-                                map.insert(
-                                    peer_ip_addr.clone(),
-                                    ClientInfo {
-                                        ip: peer_ip_addr.clone(),
-                                        connected_at: Instant::now(),
-                                        last_activity: Instant::now(),
-                                        status: "✅ Authenticated".to_string(),
-                                    },
-                                );
-                            }
-                            println!(
-                                "{} {}",
-                                "✅ Authenticated:".bright_green(),
-                                peer_ip_addr
-                            );
-                            info!("Authentication successful for {}", peer_ip_addr);
-
-                            let clients_clone = Arc::clone(&clients);
-                            let stats_clone = Arc::clone(&stats);
-                            let rt_clone = Arc::clone(&rt);
-                            let mut stream_clone = stream.try_clone()?;
-                            let ip_clone = peer_ip_addr.clone();
-
-                            thread::spawn(move || {
-                                handle_client(
-                                    &mut stream_clone,
-                                    &rt_clone,
-                                    &ip_clone,
-                                    clients_clone,
-                                    stats_clone,
-                                )
-                                .unwrap_or_else(|e| {
-                                    error!("Client {} error: {:?}", ip_clone, e)
-                                });
-                            });
-                        } else {
-                            warn!(
-                                "Invalid token from {} (got '{}', expected '{}')",
-                                peer_ip_addr, received_token, expected_auth_token
-                            );
-                            println!(
-                                "{} {}",
-                                "❌ Authentication failed for:".bright_red(),
-                                peer_ip_addr
-                            );
-                        }
-                    }
-                    Err(e) => {
-                        error!("Error reading token from {}: {:?}", peer_ip_addr, e);
-                    }
+                // Accept connection immediately (auth removed)
+                {
+                    let mut map = clients.lock().unwrap();
+                    map.insert(
+                        peer_ip_addr.clone(),
+                        ClientInfo {
+                            ip: peer_ip_addr.clone(),
+                            connected_at: Instant::now(),
+                            last_activity: Instant::now(),
+                            status: "✅ Connected".to_string(),
+                        },
+                    );
                 }
+                println!("{} {}", "✅ Connection accepted:".bright_green(), peer_ip_addr);
+                info!("Connection accepted for {}", peer_ip_addr);
+
+                let clients_clone = Arc::clone(&clients);
+                let stats_clone = Arc::clone(&stats);
+                let rt_clone = Arc::clone(&rt);
+                let mut stream_clone = stream.try_clone()?;
+                let ip_clone = peer_ip_addr.clone();
+
+                thread::spawn(move || {
+                    handle_client(
+                        &mut stream_clone,
+                        &rt_clone,
+                        &ip_clone,
+                        clients_clone,
+                        stats_clone,
+                    )
+                    .unwrap_or_else(|e| error!("Client {} error: {:?}", ip_clone, e));
+                });
             }
             Err(err) => {
                 error!("Error accepting connection: {:?}", err);

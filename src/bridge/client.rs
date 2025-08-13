@@ -23,7 +23,7 @@ impl ClientInfo {
             ip,
             connected_at: Instant::now(),
             last_activity: Instant::now(),
-            status: "✅ Authenticated".to_string(),
+            status: "✅ Connected".to_string(),
         }
     }
 }

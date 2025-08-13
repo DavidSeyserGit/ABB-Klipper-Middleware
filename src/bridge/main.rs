@@ -1,4 +1,4 @@
-mod auth;
+// auth removed (token-based authentication disabled)
 mod dashboard;
 mod client;
 mod config;
@@ -15,8 +15,7 @@ use chrono::Local;
 use colored::*;
 
 use crate::client::handle_client;
-use crate::auth as cr;
-use crate::dashboard::{draw_dashboard, STATS};
+use crate::dashboard::draw_dashboard;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     log4rs::init_file("log4rs.yaml", Default::default())?;
@@ -59,7 +58,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     for stream in listener.incoming() {
         match stream {
-            Ok(mut stream) => {
+            Ok(stream) => {
                 let peer_socket_addr = stream.peer_addr()?;
                 let peer_ip_addr = peer_socket_addr.ip().to_string();
                 println!(
@@ -77,53 +76,27 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     continue;
                 }
 
-                let expected_auth_token = cr::calculate_response(&config.auth_token);
-
-                let mut buffer = [0; 1024];
-                use std::io::Read;
-                match Read::read(&mut stream, &mut buffer) {
-                    Ok(sz) => {
-                        if sz == 0 {
-                            warn!("Empty connection from {}", peer_ip_addr);
-                            continue;
-                        }
-                        let received_token = String::from_utf8_lossy(&buffer[..sz])
-                            .trim()
-                            .to_string();
-
-                        if received_token == expected_auth_token {
-                            {
-                                let mut map = clients.lock().unwrap();
-                                map.insert(
-                                    peer_ip_addr.clone(),
-                                    crate::client::ClientInfo::new_authenticated(peer_ip_addr.clone()),
-                                );
-                            }
-                            println!("{} {}", "✅ Authenticated:".bright_green(), peer_ip_addr);
-                            info!("Authentication successful for {}", peer_ip_addr);
-
-                            let clients_clone = Arc::clone(&clients);
-                            let rt_clone = Arc::clone(&rt);
-                            let mut stream_clone = stream.try_clone()?;
-                            let ip_clone = peer_ip_addr.clone();
-
-                            thread::spawn(move || {
-                                if let Err(e) = handle_client(&mut stream_clone, &rt_clone, &ip_clone, clients_clone) {
-                                    error!("Client {} error: {:?}", ip_clone, e);
-                                }
-                            });
-                        } else {
-                            warn!(
-                                "Invalid token from {} (got '{}', expected '{}')",
-                                peer_ip_addr, received_token, expected_auth_token
-                            );
-                            println!("{} {}", "❌ Authentication failed for:".bright_red(), peer_ip_addr);
-                        }
-                    }
-                    Err(e) => {
-                        error!("Error reading token from {}: {:?}", peer_ip_addr, e);
-                    }
+                // Directly accept connection (no token auth)
+                {
+                    let mut map = clients.lock().unwrap();
+                    map.insert(
+                        peer_ip_addr.clone(),
+                        crate::client::ClientInfo::new_authenticated(peer_ip_addr.clone()),
+                    );
                 }
+                println!("{} {}", "✅ Connection accepted:".bright_green(), peer_ip_addr);
+                info!("Connection accepted for {}", peer_ip_addr);
+
+                let clients_clone = Arc::clone(&clients);
+                let rt_clone = Arc::clone(&rt);
+                let mut stream_clone = stream.try_clone()?;
+                let ip_clone = peer_ip_addr.clone();
+
+                thread::spawn(move || {
+                    if let Err(e) = handle_client(&mut stream_clone, &rt_clone, &ip_clone, clients_clone) {
+                        error!("Client {} error: {:?}", ip_clone, e);
+                    }
+                });
             }
             Err(err) => {
                 error!("Error accepting connection: {:?}", err);
