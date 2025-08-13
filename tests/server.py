@@ -4,7 +4,7 @@ import sys
 
 # Configuration for connecting to the Rust server
 #HOST = '127.0.0.1'
-HOST = '192.168.0.100'  # The IP address your Rust server is listening on
+HOST = '127.0.0.1'  # The IP address your Rust server is listening on
 PORT = 1987         # The port your Rust server is listening on
 
 # --- IMPORTANT: Get the token from your Rust server's console when it starts ---
@@ -20,13 +20,6 @@ def connect_and_send_messages(token: str, messages: list[str]):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((HOST, PORT))
             print(f"Connected to {HOST}:{PORT}")
-
-            # 1. Send the authentication token first
-            # Add a newline as a simple message delimiter for the Rust server's `read`.
-            s.sendall((token + "\n").encode('utf-8'))
-            print(f"Sent auth token: '{token}'")
-            time.sleep(0.1) # Give the server a tiny moment to process the token
-
             # 2. Send subsequent messages
             for i, msg in enumerate(messages):
                 print(f"\n--- Sending message {i+1} ---")

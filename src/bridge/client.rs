@@ -7,7 +7,6 @@ use std::error::Error;
 use log::{info, error, debug};
 use tokio::runtime::Runtime;
 use crate::dashboard::STATS;
-use crate::dashboard::DashboardStats;
 
 #[derive(Clone)]
 pub struct ClientInfo {
@@ -48,6 +47,15 @@ pub fn handle_client(
                     break;
                 }
                 let received_data = String::from_utf8_lossy(&buffer[..sz]).to_string();
+                let trimmed = received_data.trim();
+                // Add G1 prefix only if command doesn't start with typical G/M prefix already
+                let formatted_command = if trimmed.is_empty() {
+                    String::new()
+                } else if matches!(trimmed.chars().next(), Some('G') | Some('g') | Some('M') | Some('m')) {
+                    trimmed.to_string()
+                } else {
+                    format!("G1 {}", trimmed)
+                };
 
                 {
                     let mut map = clients.lock().unwrap();
@@ -61,11 +69,13 @@ pub fn handle_client(
                 {
                     let mut stats = STATS.lock().unwrap();
                     stats.data_received += sz;
-                    stats.last_command = received_data.clone();
+                    stats.last_command = formatted_command.clone();
                 }
 
-                debug!("{} → Sending to Moonraker: {}", ip, received_data);
-                let _ = rt.block_on(post_to_moonraker(&received_data));
+                if !formatted_command.is_empty() {
+                    let _ = rt.block_on(post_to_moonraker(&formatted_command));
+                    info!("{} → Sending G-code: {}", ip, formatted_command);
+                }
             }
             Err(e) => {
                 let mut map = clients.lock().unwrap();
@@ -81,19 +91,19 @@ pub fn handle_client(
 }
 
 async fn post_to_moonraker(
-    data: &str,
+    gcode: &str,
 ) -> Result<reqwest::Response, reqwest::Error> {
-    let formatted_data = format!("G1 {}", data);
     let client = reqwest::Client::new();
-    let res_body = data.as_bytes().len();
+    let res_body = gcode.as_bytes().len();
     {
         let mut stats = STATS.lock().unwrap();
         stats.data_sent += res_body;
     }
     let response = client
         .post("http://127.0.0.1:7125/printer/gcode/script")
-        .query(&[("script", formatted_data)])
+        .query(&[("script", gcode)])
         .send()
         .await?;
+    debug!("Moonraker response status: {}", response.status());
     Ok(response)
 }
