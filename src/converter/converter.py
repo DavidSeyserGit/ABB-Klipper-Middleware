@@ -66,78 +66,18 @@ class RobotConverter:
         """Replace extruder commands with socket send commands."""
         new_contents = []
         
-        if postprocess == "rapid":
-            extruder_pattern = re.compile(r"Extruder\s?(\d+)")
-            
-            for line in contents.splitlines():
-                match = extruder_pattern.search(line)
-                if match:
-                    number_str = match.group(1)
-                    factor = 100000.00 if postprocess == "rapid" else 1.00
-                    number = float(number_str) / factor
-                    new_contents.append(f"    SocketSend my_socket \\Str := \"E{number}\";")
-                else:
-                    new_contents.append(line)
-        else:
-            # Handle MoveL and E-value calculation
-            move_pattern = re.compile(
-                r"MoveL \[\[([\d\.\-E]+),([\d\.\-E]+),([\d\.\-E]+)\],"
-                r"\[[\d\.\-E]+,[\d\.\-E]+,[\d\.\-E]+,[\d\.\-E]+\],"
-                r"\[[\d,-]+\],\[[\dE\+\-]+,[\dE\+\-]+,[\dE\+\-]+,"
-                r"[\dE\+\-]+,[\dE\+\-]+,[\dE\+\-]+\],(v\d+),.*"
-            )
-            speed_pattern = re.compile(r"ExtruderSpeed\s*([\d\.]+)")
-            
-            last_position: Optional[list] = None
-            extruder_speed: Optional[float] = None
-            total_e_value: float = 0.0
-            
-            for line in contents.splitlines():
-                move_match = move_pattern.search(line)
-                if move_match:
-                    x = float(move_match.group(1))
-                    y = float(move_match.group(2))
-                    z = float(move_match.group(3))
-                    position = [x, y, z]
-                    velocity_str = move_match.group(4)
-                    
-                    new_contents.append(line)
-                    
-                    if last_position is not None:
-                        distance = ((position[0] - last_position[0])**2 + 
-                                  (position[1] - last_position[1])**2 + 
-                                  (position[2] - last_position[2])**2)**0.5
-                        
-                        if extruder_speed is not None:
-                            try:
-                                velocity = float(velocity_str[1:])  # Remove 'v' prefix
-                                if velocity > 0.0:
-                                    e_value = distance * extruder_speed * 0.05
-                                    total_e_value += e_value
-                                    new_contents.append(
-                                        f"    SocketSend my_socket \\Str := \"E{total_e_value}\";"
-                                    )
-                                else:
-                                    new_contents.append(
-                                        "    !Warning: Velocity is zero or invalid for this MoveL command."
-                                    )
-                            except ValueError:
-                                new_contents.append(
-                                    "    !Warning: Invalid velocity value."
-                                )
-                        else:
-                            new_contents.append("    !Warning: Extruder speed not yet defined.")
-                    
-                    last_position = position
-                else:
-                    speed_match = speed_pattern.search(line)
-                    if speed_match:
-                        extruder_speed = float(speed_match.group(1))
-                        new_contents.append("")
-                        new_contents.append(f"    !Extruder Speed: {extruder_speed}")
-                    else:
-                        new_contents.append(line)
+        extruder_pattern = re.compile(r"Extruder\s?(\d+)")
         
+        for line in contents.splitlines():
+            match = extruder_pattern.search(line)
+            if match:
+                number_str = match.group(1)
+                factor = 100000.00 if postprocess == "rapid" else 1.00
+                number = float(number_str) / factor
+                new_contents.append(f"    SocketSend my_socket \\Str := \"E{number}\";")
+            else:
+                new_contents.append(line)
+
         return '\n'.join(new_contents)
     
     def replace_setrpm_with_socket_send(self, contents: str, postprocess: str) -> str:
