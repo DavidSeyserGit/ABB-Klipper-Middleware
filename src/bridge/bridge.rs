@@ -5,7 +5,7 @@ use std::error::Error;
 use tokio::runtime::Runtime;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let listener = TcpListener::bind("10.0.0.10:1234")?; // needs to be changed to the robot IP or 0.0.0.0:6969
+    let listener = TcpListener::bind("0.0.0.0:6969")?; // needs to be changed to the robot IP or 0.0.0.0:6969 10.0.0.10:1234
     let rt = Runtime::new()?;
 
     for stream in listener.incoming() {
