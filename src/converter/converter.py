@@ -67,7 +67,7 @@ class RobotConverter:
         new_contents = []
         
         if postprocess == "rapid":
-            extruder_pattern = re.compile(r"Extruder(\d+)")
+            extruder_pattern = re.compile(r"Extruder\s?(\d+)")
             
             for line in contents.splitlines():
                 match = extruder_pattern.search(line)
