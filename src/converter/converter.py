@@ -66,7 +66,7 @@ class RobotConverter:
         """Replace extruder commands with socket send commands."""
         new_contents = []
         
-        extruder_pattern = re.compile(r"Extruder\s?(\d+)")
+        extruder_pattern = re.compile(r"Extruder\s?(-?\d+)")
         
         for line in contents.splitlines():
             match = extruder_pattern.search(line)
