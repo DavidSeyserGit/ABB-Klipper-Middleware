@@ -83,7 +83,7 @@ class RobotConverter:
     def replace_setrpm_with_socket_send(self, contents: str, postprocess: str) -> str:
         """Replace RPM commands with socket send commands."""
         if postprocess == "rapid":
-            pattern = re.compile(r"SetRPM(\d+)")
+            pattern = re.compile(r"SetRPM\s?(\d+)")
         else:
             pattern = re.compile(r"SetRPM\s+(\d+)")
         
@@ -103,7 +103,7 @@ class RobotConverter:
     def replace_m_code_with_socket_send(self, contents: str, postprocess: str) -> str:
         """Replace M-code commands with socket send commands."""
         if postprocess == "rapid":
-            pattern = re.compile(r"M_RunCode(\d+)")
+            pattern = re.compile(r"M_RunCode\s?(\d+)")
         else:
             pattern = re.compile(r"M_RunCode\s+(\d+)")
         
